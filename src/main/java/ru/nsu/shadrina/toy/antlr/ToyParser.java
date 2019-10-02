@@ -449,7 +449,7 @@ public class ToyParser extends Parser {
 			setState(65);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LANGLE) | (1L << RANGLE) | (1L << LE) | (1L << GE))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LANGLE) | (1L << RANGLE) | (1L << LE) | (1L << GE) | (1L << EXCL_EQ) | (1L << EQEQ))) != 0)) {
 				{
 				setState(62);
 				comparisonOperator();
@@ -620,6 +620,8 @@ public class ToyParser extends Parser {
 		public TerminalNode RANGLE() { return getToken(ToyParser.RANGLE, 0); }
 		public TerminalNode LE() { return getToken(ToyParser.LE, 0); }
 		public TerminalNode GE() { return getToken(ToyParser.GE, 0); }
+		public TerminalNode EXCL_EQ() { return getToken(ToyParser.EXCL_EQ, 0); }
+		public TerminalNode EQEQ() { return getToken(ToyParser.EQEQ, 0); }
 		public ComparisonOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -648,7 +650,7 @@ public class ToyParser extends Parser {
 			{
 			setState(87);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LANGLE) | (1L << RANGLE) | (1L << LE) | (1L << GE))) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LANGLE) | (1L << RANGLE) | (1L << LE) | (1L << GE) | (1L << EXCL_EQ) | (1L << EQEQ))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -1050,7 +1052,7 @@ public class ToyParser extends Parser {
 		"\3\b\7\bI\n\b\f\b\16\bL\13\b\3\b\3\b\3\t\3\t\3\t\7\tS\n\t\f\t\16\tV\13"+
 		"\t\3\t\3\t\3\n\3\n\3\13\3\13\3\f\3\f\3\r\3\r\3\r\5\rc\n\r\3\16\3\16\3"+
 		"\16\3\16\3\17\3\17\3\20\5\20l\n\20\3\20\3\20\3\21\3\21\3\21\3\21\3\21"+
-		"\2\2\22\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \2\5\3\2\24\27\3\2\20\21"+
+		"\2\2\22\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \2\5\3\2\24\31\3\2\20\21"+
 		"\3\2\r\17\2l\2\'\3\2\2\2\4/\3\2\2\2\6\61\3\2\2\2\b\66\3\2\2\2\n:\3\2\2"+
 		"\2\f?\3\2\2\2\16J\3\2\2\2\20T\3\2\2\2\22Y\3\2\2\2\24[\3\2\2\2\26]\3\2"+
 		"\2\2\30b\3\2\2\2\32d\3\2\2\2\34h\3\2\2\2\36k\3\2\2\2 o\3\2\2\2\"#\5\4"+

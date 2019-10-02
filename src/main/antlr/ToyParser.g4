@@ -37,7 +37,7 @@ multiplicativeExpression
     ;
 
 comparisonOperator
-    : LANGLE | RANGLE | LE | GE
+    : LANGLE | RANGLE | LE | GE | EXCL_EQ | EQEQ
     ;
 
 additiveOperator
