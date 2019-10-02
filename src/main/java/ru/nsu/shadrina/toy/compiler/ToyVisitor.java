@@ -20,7 +20,7 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
     @Override
     public MethodVisitor visitFile(ToyParser.FileContext ctx) {
         methodVisitor.visitCode();
-        ctx.children.forEach(child -> child.accept(this));
+        visitChildren(ctx);
         methodVisitor.visitInsn(RETURN);
         methodVisitor.visitMaxs(maxStack, maxLocals);
         methodVisitor.visitEnd();
@@ -29,7 +29,8 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
 
     @Override
     public MethodVisitor visitStatement(ToyParser.StatementContext ctx) {
-        return super.visitStatement(ctx);
+        visitChildren(ctx);
+        return methodVisitor;
     }
 
     @Override
@@ -44,36 +45,51 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
 
     @Override
     public MethodVisitor visitPrintExpression(ToyParser.PrintExpressionContext ctx) {
-        return super.visitPrintExpression(ctx);
+        methodVisitor.visitFieldInsn(GETSTATIC,"java/lang/System", "out", "Ljava/io/PrintStream;");
+        maxStack++;
+        ctx.expression().accept(this);
+        methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(I)V", false);
+        return methodVisitor;
     }
 
     @Override
     public MethodVisitor visitExpression(ToyParser.ExpressionContext ctx) {
-        return super.visitExpression(ctx);
+        ctx.atomic().accept(this);
+        var operation = ctx.operation();
+        var expression = ctx.expression();
+        if (operation != null && expression != null) {
+            expression.accept(this);
+            operation.accept(this);
+        }
+        return methodVisitor;
     }
 
     @Override
     public MethodVisitor visitOperation(ToyParser.OperationContext ctx) {
+        switch (ctx.start.getType()) {
+            case ToyParser.ADD:
+                methodVisitor.visitInsn(IADD);
+                break;
+            case ToyParser.SUB:
+                methodVisitor.visitInsn(ISUB);
+                break;
+            default:
+                throw new RuntimeException("Unknown operation");
+        }
         return super.visitOperation(ctx);
     }
 
     @Override
     public MethodVisitor visitAtomic(ToyParser.AtomicContext ctx) {
-        return super.visitAtomic(ctx);
-    }
-
-    @Override
-    public MethodVisitor visitParenthesizedExpression(ToyParser.ParenthesizedExpressionContext ctx) {
-        return super.visitParenthesizedExpression(ctx);
+        visitChildren(ctx);
+        return methodVisitor;
     }
 
     @Override
     public MethodVisitor visitLiteralConstant(ToyParser.LiteralConstantContext ctx) {
+        var constant = Integer.parseInt(ctx.getText());
+        methodVisitor.visitLdcInsn(constant);
+        maxStack++;
         return super.visitLiteralConstant(ctx);
-    }
-
-    @Override
-    public MethodVisitor visitLineStringLiteral(ToyParser.LineStringLiteralContext ctx) {
-        return super.visitLineStringLiteral(ctx);
     }
 }
