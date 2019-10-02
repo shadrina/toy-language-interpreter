@@ -653,11 +653,11 @@ public class ToyParser extends Parser {
 	}
 
 	public static class AtomicContext extends ParserRuleContext {
-		public LiteralConstantContext literalConstant() {
-			return getRuleContext(LiteralConstantContext.class,0);
-		}
 		public ParenthesizedExpressionContext parenthesizedExpression() {
 			return getRuleContext(ParenthesizedExpressionContext.class,0);
+		}
+		public LiteralConstantContext literalConstant() {
+			return getRuleContext(LiteralConstantContext.class,0);
 		}
 		public AtomicContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -685,18 +685,18 @@ public class ToyParser extends Parser {
 			setState(81);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case IntegerLiteral:
+			case LPAREN:
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(79);
-				literalConstant();
+				parenthesizedExpression();
 				}
 				break;
-			case LPAREN:
+			case IntegerLiteral:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(80);
-				parenthesizedExpression();
+				literalConstant();
 				}
 				break;
 			default:
@@ -874,7 +874,7 @@ public class ToyParser extends Parser {
 		">?\3\2\2\2?A\3\2\2\2@>\3\2\2\2AB\5\16\b\2B\r\3\2\2\2CD\5\24\13\2DE\5\22"+
 		"\n\2EG\3\2\2\2FC\3\2\2\2GJ\3\2\2\2HF\3\2\2\2HI\3\2\2\2IK\3\2\2\2JH\3\2"+
 		"\2\2KL\5\24\13\2L\17\3\2\2\2MN\t\2\2\2N\21\3\2\2\2OP\t\3\2\2P\23\3\2\2"+
-		"\2QT\5\30\r\2RT\5\26\f\2SQ\3\2\2\2SR\3\2\2\2T\25\3\2\2\2UV\7\7\2\2VW\5"+
+		"\2QT\5\26\f\2RT\5\30\r\2SQ\3\2\2\2SR\3\2\2\2T\25\3\2\2\2UV\7\7\2\2VW\5"+
 		"\f\7\2WX\7\b\2\2X\27\3\2\2\2YZ\7\31\2\2Z\31\3\2\2\2[\\\7\26\2\2\\]\7$"+
 		"\2\2]^\7#\2\2^\33\3\2\2\2\7!)>HS";
 	public static final ATN _ATN =

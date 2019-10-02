@@ -41,8 +41,13 @@ multiplicativeOperator
     ;
 
 atomic
-    : literalConstant
+    : parenthesizedExpression
+    | literalConstant
     // | lineStringLiteral
+    ;
+
+parenthesizedExpression
+    : LPAREN expression RPAREN
     ;
 
 literalConstant

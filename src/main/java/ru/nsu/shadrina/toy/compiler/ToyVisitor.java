@@ -112,6 +112,12 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
     }
 
     @Override
+    public MethodVisitor visitParenthesizedExpression(ToyParser.ParenthesizedExpressionContext ctx) {
+        ctx.expression().accept(this);
+        return methodVisitor;
+    }
+
+    @Override
     public MethodVisitor visitLiteralConstant(ToyParser.LiteralConstantContext ctx) {
         var constant = Integer.parseInt(ctx.getText());
         methodVisitor.visitLdcInsn(constant);
