@@ -11,8 +11,8 @@ import java.util.Map;
 import static org.objectweb.asm.Opcodes.*;
 
 public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
-    private static int BIPUSH_MAX = 128;
-    private static int SIPUSH_MAX = 32768;
+    private static final int BIPUSH_MAX = 128;
+    private static final int SIPUSH_MAX = 32768;
 
     private MethodVisitor methodVisitor;
     private Map<String, Integer> variableToIndexMapping = new HashMap<>();
