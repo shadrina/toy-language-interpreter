@@ -47,11 +47,23 @@ public interface ToyParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpression(ToyParser.ExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ToyParser#term}.
+	 * Visit a parse tree produced by {@link ToyParser#additiveExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTerm(ToyParser.TermContext ctx);
+	T visitAdditiveExpression(ToyParser.AdditiveExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ToyParser#multiplicativeExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultiplicativeExpression(ToyParser.MultiplicativeExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ToyParser#comparisonOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitComparisonOperator(ToyParser.ComparisonOperatorContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ToyParser#additiveOperator}.
 	 * @param ctx the parse tree

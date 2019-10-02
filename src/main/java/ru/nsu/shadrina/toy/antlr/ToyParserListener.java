@@ -68,15 +68,35 @@ public interface ToyParserListener extends ParseTreeListener {
 	 */
 	void exitExpression(ToyParser.ExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ToyParser#term}.
+	 * Enter a parse tree produced by {@link ToyParser#additiveExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterTerm(ToyParser.TermContext ctx);
+	void enterAdditiveExpression(ToyParser.AdditiveExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ToyParser#term}.
+	 * Exit a parse tree produced by {@link ToyParser#additiveExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitTerm(ToyParser.TermContext ctx);
+	void exitAdditiveExpression(ToyParser.AdditiveExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ToyParser#multiplicativeExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterMultiplicativeExpression(ToyParser.MultiplicativeExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ToyParser#multiplicativeExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitMultiplicativeExpression(ToyParser.MultiplicativeExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ToyParser#comparisonOperator}.
+	 * @param ctx the parse tree
+	 */
+	void enterComparisonOperator(ToyParser.ComparisonOperatorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ToyParser#comparisonOperator}.
+	 * @param ctx the parse tree
+	 */
+	void exitComparisonOperator(ToyParser.ComparisonOperatorContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ToyParser#additiveOperator}.
 	 * @param ctx the parse tree

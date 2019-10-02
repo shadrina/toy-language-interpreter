@@ -26,6 +26,10 @@ NL
 
 LPAREN:     '(';
 RPAREN:     ')';
+LCURL:      '{';
+RCURL:      '}';
+LSQUARE:    '[';
+RSQUARE:    ']';
 MULT:       '*';
 MOD:        '%';
 DIV:        '/';
@@ -46,6 +50,9 @@ QUOTE_OPEN: '"' -> pushMode(LineString) ;
 
 PRINT: 'print';
 VAL:   'val';
+IF:    'if';
+THEN:  'then';
+ELSE:  'else';
 
 // Literals
 

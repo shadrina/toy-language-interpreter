@@ -25,11 +25,19 @@ printExpression
     ;
 
 expression
-    : (term additiveOperator)* term
+    : additiveExpression (comparisonOperator additiveExpression)?
     ;
 
-term
+additiveExpression
+    : (multiplicativeExpression additiveOperator)* multiplicativeExpression
+    ;
+
+multiplicativeExpression
     : (atomic multiplicativeOperator)* atomic
+    ;
+
+comparisonOperator
+    : LANGLE | RANGLE | LE | GE
     ;
 
 additiveOperator

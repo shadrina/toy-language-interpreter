@@ -1,6 +1,7 @@
 package ru.nsu.shadrina.toy.compiler;
 
 import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import ru.nsu.shadrina.toy.antlr.ToyParser;
 import ru.nsu.shadrina.toy.antlr.ToyParserBaseVisitor;
@@ -16,7 +17,9 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
 
     private MethodVisitor methodVisitor;
     private Map<String, Integer> variableToIndexMapping = new HashMap<>();
+
     private int maxLocals = 1;
+    private Label lastLabel;
 
     ToyVisitor(ClassVisitor classVisitor) {
         methodVisitor = classVisitor.visitMethod(ACC_PUBLIC + ACC_STATIC, "main", "([Ljava/lang/String;)V", null, null);
@@ -67,10 +70,28 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
 
     @Override
     public MethodVisitor visitExpression(ToyParser.ExpressionContext ctx) {
-        ctx.term(0).accept(this);
+        ctx.additiveExpression(0).accept(this);
+        if (ctx.comparisonOperator() != null) {
+            ctx.additiveExpression(1).accept(this);
+            var elseLabel = new Label();
+            lastLabel = elseLabel;
+            ctx.comparisonOperator().accept(this);
+            methodVisitor.visitInsn(ICONST_1);
+            var nextLabel = new Label();
+            methodVisitor.visitJumpInsn(GOTO, nextLabel);
+            methodVisitor.visitLabel(elseLabel);
+            methodVisitor.visitInsn(ICONST_0);
+            methodVisitor.visitLabel(nextLabel);
+        }
+        return methodVisitor;
+    }
+
+    @Override
+    public MethodVisitor visitAdditiveExpression(ToyParser.AdditiveExpressionContext ctx) {
+        ctx.multiplicativeExpression(0).accept(this);
         var i = 0;
-        while (i + 1 < ctx.term().size()) {
-            ctx.term(i + 1).accept(this);
+        while (i + 1 < ctx.multiplicativeExpression().size()) {
+            ctx.multiplicativeExpression(i + 1).accept(this);
             ctx.additiveOperator(i).accept(this);
             i++;
         }
@@ -78,13 +99,32 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
     }
 
     @Override
-    public MethodVisitor visitTerm(ToyParser.TermContext ctx) {
+    public MethodVisitor visitMultiplicativeExpression(ToyParser.MultiplicativeExpressionContext ctx) {
         ctx.atomic(0).accept(this);
         var i = 0;
         while (i + 1 < ctx.atomic().size()) {
             ctx.atomic(i + 1).accept(this);
             ctx.multiplicativeOperator(i).accept(this);
             i++;
+        }
+        return methodVisitor;
+    }
+
+    @Override
+    public MethodVisitor visitComparisonOperator(ToyParser.ComparisonOperatorContext ctx) {
+        switch (ctx.start.getType()) {
+            case ToyParser.LANGLE:
+                methodVisitor.visitJumpInsn(IF_ICMPGT, lastLabel);
+                break;
+            case ToyParser.RANGLE:
+                methodVisitor.visitJumpInsn(IF_ICMPLT, lastLabel);
+                break;
+            case ToyParser.LE:
+                methodVisitor.visitJumpInsn(IF_ICMPGE, lastLabel);
+                break;
+            case ToyParser.GE:
+                methodVisitor.visitJumpInsn(IF_ICMPLE, lastLabel);
+                break;
         }
         return methodVisitor;
     }
