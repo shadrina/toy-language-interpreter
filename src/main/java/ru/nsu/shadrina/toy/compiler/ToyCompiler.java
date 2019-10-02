@@ -52,7 +52,7 @@ public class ToyCompiler {
     }
 
     private void compile(String code) {
-        var classWriter = new ClassWriter(0);
+        var classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
         classWriter.visit(V11, ACC_PUBLIC | ACC_SUPER, generatedClassName, null, "java/lang/Object", null);
 
         var lexer = new ToyLexer(new ANTLRInputStream(code));

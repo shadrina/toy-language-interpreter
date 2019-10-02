@@ -5,12 +5,16 @@ import org.objectweb.asm.MethodVisitor;
 import ru.nsu.shadrina.toy.antlr.ToyParser;
 import ru.nsu.shadrina.toy.antlr.ToyParserBaseVisitor;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.objectweb.asm.Opcodes.*;
 
 public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
     private MethodVisitor methodVisitor;
 
-    private int maxStack = 0;
+    private Map<String, Integer> variableToIndexMapping = new HashMap<>();
+
     private int maxLocals = 1;
 
     ToyVisitor(ClassVisitor classVisitor) {
@@ -22,7 +26,7 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
         methodVisitor.visitCode();
         visitChildren(ctx);
         methodVisitor.visitInsn(RETURN);
-        methodVisitor.visitMaxs(maxStack, maxLocals);
+        methodVisitor.visitMaxs(0, 0);
         methodVisitor.visitEnd();
         return methodVisitor;
     }
@@ -35,7 +39,15 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
 
     @Override
     public MethodVisitor visitDeclaration(ToyParser.DeclarationContext ctx) {
-        return super.visitDeclaration(ctx);
+        var identifier = ctx.Identifier().getText();
+        if (variableToIndexMapping.containsKey(identifier)) {
+            throw new RuntimeException("Variable with name " + identifier + " already exists");
+        }
+        ctx.expression().accept(this);
+        methodVisitor.visitVarInsn(ISTORE, maxLocals);
+        variableToIndexMapping.put(identifier, maxLocals);
+        maxLocals++;
+        return methodVisitor;
     }
 
     @Override
@@ -46,7 +58,6 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
     @Override
     public MethodVisitor visitPrintExpression(ToyParser.PrintExpressionContext ctx) {
         methodVisitor.visitFieldInsn(GETSTATIC,"java/lang/System", "out", "Ljava/io/PrintStream;");
-        maxStack++;
         ctx.expression().accept(this);
         methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(I)V", false);
         return methodVisitor;
@@ -118,10 +129,20 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
     }
 
     @Override
+    public MethodVisitor visitIdentifier(ToyParser.IdentifierContext ctx) {
+        var identifier = ctx.Identifier().getText();
+        var index = variableToIndexMapping.getOrDefault(identifier, null);
+        if (index == null) {
+            throw new RuntimeException("Unknown variable " + identifier);
+        }
+        methodVisitor.visitVarInsn(ILOAD, index);
+        return methodVisitor;
+    }
+
+    @Override
     public MethodVisitor visitLiteralConstant(ToyParser.LiteralConstantContext ctx) {
         var constant = Integer.parseInt(ctx.getText());
-        methodVisitor.visitLdcInsn(constant);
-        maxStack++;
+        methodVisitor.visitIntInsn(BIPUSH, constant);
         return methodVisitor;
     }
 }

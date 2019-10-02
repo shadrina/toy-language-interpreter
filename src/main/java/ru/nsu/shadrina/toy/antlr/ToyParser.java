@@ -27,12 +27,12 @@ public class ToyParser extends Parser {
 		RULE_file = 0, RULE_statement = 1, RULE_declaration = 2, RULE_assignment = 3, 
 		RULE_printExpression = 4, RULE_expression = 5, RULE_term = 6, RULE_additiveOperator = 7, 
 		RULE_multiplicativeOperator = 8, RULE_atomic = 9, RULE_parenthesizedExpression = 10, 
-		RULE_literalConstant = 11, RULE_lineStringLiteral = 12;
+		RULE_identifier = 11, RULE_literalConstant = 12, RULE_lineStringLiteral = 13;
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"file", "statement", "declaration", "assignment", "printExpression", 
 			"expression", "term", "additiveOperator", "multiplicativeOperator", "atomic", 
-			"parenthesizedExpression", "literalConstant", "lineStringLiteral"
+			"parenthesizedExpression", "identifier", "literalConstant", "lineStringLiteral"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -144,23 +144,23 @@ public class ToyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(31);
+			setState(33);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PRINT) | (1L << VAL) | (1L << Identifier))) != 0)) {
 				{
 				{
-				setState(26);
+				setState(28);
 				statement();
-				setState(27);
+				setState(29);
 				match(SEMICOLON);
 				}
 				}
-				setState(33);
+				setState(35);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(34);
+			setState(36);
 			match(EOF);
 			}
 		}
@@ -208,27 +208,27 @@ public class ToyParser extends Parser {
 		StatementContext _localctx = new StatementContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_statement);
 		try {
-			setState(39);
+			setState(41);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case VAL:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(36);
+				setState(38);
 				declaration();
 				}
 				break;
 			case Identifier:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(37);
+				setState(39);
 				assignment();
 				}
 				break;
 			case PRINT:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(38);
+				setState(40);
 				printExpression();
 				}
 				break;
@@ -279,13 +279,13 @@ public class ToyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(41);
-			match(VAL);
-			setState(42);
-			match(Identifier);
 			setState(43);
-			match(ASSIGNMENT);
+			match(VAL);
 			setState(44);
+			match(Identifier);
+			setState(45);
+			match(ASSIGNMENT);
+			setState(46);
 			expression();
 			}
 		}
@@ -331,11 +331,11 @@ public class ToyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(46);
-			match(Identifier);
-			setState(47);
-			match(ASSIGNMENT);
 			setState(48);
+			match(Identifier);
+			setState(49);
+			match(ASSIGNMENT);
+			setState(50);
 			expression();
 			}
 		}
@@ -382,13 +382,13 @@ public class ToyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(50);
-			match(PRINT);
-			setState(51);
-			match(LPAREN);
 			setState(52);
-			expression();
+			match(PRINT);
 			setState(53);
+			match(LPAREN);
+			setState(54);
+			expression();
+			setState(55);
 			match(RPAREN);
 			}
 		}
@@ -442,25 +442,25 @@ public class ToyParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(60);
+			setState(62);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,2,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(55);
+					setState(57);
 					term();
-					setState(56);
+					setState(58);
 					additiveOperator();
 					}
 					} 
 				}
-				setState(62);
+				setState(64);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,2,_ctx);
 			}
-			setState(63);
+			setState(65);
 			term();
 			}
 		}
@@ -514,25 +514,25 @@ public class ToyParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(70);
+			setState(72);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(65);
+					setState(67);
 					atomic();
-					setState(66);
+					setState(68);
 					multiplicativeOperator();
 					}
 					} 
 				}
-				setState(72);
+				setState(74);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
 			}
-			setState(73);
+			setState(75);
 			atomic();
 			}
 		}
@@ -576,7 +576,7 @@ public class ToyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(75);
+			setState(77);
 			_la = _input.LA(1);
 			if ( !(_la==ADD || _la==SUB) ) {
 			_errHandler.recoverInline(this);
@@ -629,7 +629,7 @@ public class ToyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(77);
+			setState(79);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << MULT) | (1L << MOD) | (1L << DIV))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -655,6 +655,9 @@ public class ToyParser extends Parser {
 	public static class AtomicContext extends ParserRuleContext {
 		public ParenthesizedExpressionContext parenthesizedExpression() {
 			return getRuleContext(ParenthesizedExpressionContext.class,0);
+		}
+		public IdentifierContext identifier() {
+			return getRuleContext(IdentifierContext.class,0);
 		}
 		public LiteralConstantContext literalConstant() {
 			return getRuleContext(LiteralConstantContext.class,0);
@@ -682,20 +685,27 @@ public class ToyParser extends Parser {
 		AtomicContext _localctx = new AtomicContext(_ctx, getState());
 		enterRule(_localctx, 18, RULE_atomic);
 		try {
-			setState(81);
+			setState(84);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case LPAREN:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(79);
+				setState(81);
 				parenthesizedExpression();
 				}
 				break;
-			case IntegerLiteral:
+			case Identifier:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(80);
+				setState(82);
+				identifier();
+				}
+				break;
+			case IntegerLiteral:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(83);
 				literalConstant();
 				}
 				break;
@@ -745,12 +755,54 @@ public class ToyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(83);
+			setState(86);
 			match(LPAREN);
-			setState(84);
+			setState(87);
 			expression();
-			setState(85);
+			setState(88);
 			match(RPAREN);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class IdentifierContext extends ParserRuleContext {
+		public TerminalNode Identifier() { return getToken(ToyParser.Identifier, 0); }
+		public IdentifierContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_identifier; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ToyParserListener ) ((ToyParserListener)listener).enterIdentifier(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ToyParserListener ) ((ToyParserListener)listener).exitIdentifier(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ToyParserVisitor ) return ((ToyParserVisitor<? extends T>)visitor).visitIdentifier(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final IdentifierContext identifier() throws RecognitionException {
+		IdentifierContext _localctx = new IdentifierContext(_ctx, getState());
+		enterRule(_localctx, 22, RULE_identifier);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(90);
+			match(Identifier);
 			}
 		}
 		catch (RecognitionException re) {
@@ -787,11 +839,11 @@ public class ToyParser extends Parser {
 
 	public final LiteralConstantContext literalConstant() throws RecognitionException {
 		LiteralConstantContext _localctx = new LiteralConstantContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_literalConstant);
+		enterRule(_localctx, 24, RULE_literalConstant);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(87);
+			setState(92);
 			match(IntegerLiteral);
 			}
 		}
@@ -831,15 +883,15 @@ public class ToyParser extends Parser {
 
 	public final LineStringLiteralContext lineStringLiteral() throws RecognitionException {
 		LineStringLiteralContext _localctx = new LineStringLiteralContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_lineStringLiteral);
+		enterRule(_localctx, 26, RULE_lineStringLiteral);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(89);
+			setState(94);
 			match(QUOTE_OPEN);
-			setState(90);
+			setState(95);
 			match(LineStringText);
-			setState(91);
+			setState(96);
 			match(QUOTE_CLOSE);
 			}
 		}
@@ -855,28 +907,29 @@ public class ToyParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3$`\4\2\t\2\4\3\t\3"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3$e\4\2\t\2\4\3\t\3"+
 		"\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f"+
-		"\t\f\4\r\t\r\4\16\t\16\3\2\3\2\3\2\7\2 \n\2\f\2\16\2#\13\2\3\2\3\2\3\3"+
-		"\3\3\3\3\5\3*\n\3\3\4\3\4\3\4\3\4\3\4\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6"+
-		"\3\6\3\7\3\7\3\7\7\7=\n\7\f\7\16\7@\13\7\3\7\3\7\3\b\3\b\3\b\7\bG\n\b"+
-		"\f\b\16\bJ\13\b\3\b\3\b\3\t\3\t\3\n\3\n\3\13\3\13\5\13T\n\13\3\f\3\f\3"+
-		"\f\3\f\3\r\3\r\3\16\3\16\3\16\3\16\3\16\2\2\17\2\4\6\b\n\f\16\20\22\24"+
-		"\26\30\32\2\4\3\2\f\r\3\2\t\13\2X\2!\3\2\2\2\4)\3\2\2\2\6+\3\2\2\2\b\60"+
-		"\3\2\2\2\n\64\3\2\2\2\f>\3\2\2\2\16H\3\2\2\2\20M\3\2\2\2\22O\3\2\2\2\24"+
-		"S\3\2\2\2\26U\3\2\2\2\30Y\3\2\2\2\32[\3\2\2\2\34\35\5\4\3\2\35\36\7\16"+
-		"\2\2\36 \3\2\2\2\37\34\3\2\2\2 #\3\2\2\2!\37\3\2\2\2!\"\3\2\2\2\"$\3\2"+
-		"\2\2#!\3\2\2\2$%\7\2\2\3%\3\3\2\2\2&*\5\6\4\2\'*\5\b\5\2(*\5\n\6\2)&\3"+
-		"\2\2\2)\'\3\2\2\2)(\3\2\2\2*\5\3\2\2\2+,\7\30\2\2,-\7\33\2\2-.\7\17\2"+
-		"\2./\5\f\7\2/\7\3\2\2\2\60\61\7\33\2\2\61\62\7\17\2\2\62\63\5\f\7\2\63"+
-		"\t\3\2\2\2\64\65\7\27\2\2\65\66\7\7\2\2\66\67\5\f\7\2\678\7\b\2\28\13"+
-		"\3\2\2\29:\5\16\b\2:;\5\20\t\2;=\3\2\2\2<9\3\2\2\2=@\3\2\2\2><\3\2\2\2"+
-		">?\3\2\2\2?A\3\2\2\2@>\3\2\2\2AB\5\16\b\2B\r\3\2\2\2CD\5\24\13\2DE\5\22"+
-		"\n\2EG\3\2\2\2FC\3\2\2\2GJ\3\2\2\2HF\3\2\2\2HI\3\2\2\2IK\3\2\2\2JH\3\2"+
-		"\2\2KL\5\24\13\2L\17\3\2\2\2MN\t\2\2\2N\21\3\2\2\2OP\t\3\2\2P\23\3\2\2"+
-		"\2QT\5\26\f\2RT\5\30\r\2SQ\3\2\2\2SR\3\2\2\2T\25\3\2\2\2UV\7\7\2\2VW\5"+
-		"\f\7\2WX\7\b\2\2X\27\3\2\2\2YZ\7\31\2\2Z\31\3\2\2\2[\\\7\26\2\2\\]\7$"+
-		"\2\2]^\7#\2\2^\33\3\2\2\2\7!)>HS";
+		"\t\f\4\r\t\r\4\16\t\16\4\17\t\17\3\2\3\2\3\2\7\2\"\n\2\f\2\16\2%\13\2"+
+		"\3\2\3\2\3\3\3\3\3\3\5\3,\n\3\3\4\3\4\3\4\3\4\3\4\3\5\3\5\3\5\3\5\3\6"+
+		"\3\6\3\6\3\6\3\6\3\7\3\7\3\7\7\7?\n\7\f\7\16\7B\13\7\3\7\3\7\3\b\3\b\3"+
+		"\b\7\bI\n\b\f\b\16\bL\13\b\3\b\3\b\3\t\3\t\3\n\3\n\3\13\3\13\3\13\5\13"+
+		"W\n\13\3\f\3\f\3\f\3\f\3\r\3\r\3\16\3\16\3\17\3\17\3\17\3\17\3\17\2\2"+
+		"\20\2\4\6\b\n\f\16\20\22\24\26\30\32\34\2\4\3\2\f\r\3\2\t\13\2]\2#\3\2"+
+		"\2\2\4+\3\2\2\2\6-\3\2\2\2\b\62\3\2\2\2\n\66\3\2\2\2\f@\3\2\2\2\16J\3"+
+		"\2\2\2\20O\3\2\2\2\22Q\3\2\2\2\24V\3\2\2\2\26X\3\2\2\2\30\\\3\2\2\2\32"+
+		"^\3\2\2\2\34`\3\2\2\2\36\37\5\4\3\2\37 \7\16\2\2 \"\3\2\2\2!\36\3\2\2"+
+		"\2\"%\3\2\2\2#!\3\2\2\2#$\3\2\2\2$&\3\2\2\2%#\3\2\2\2&\'\7\2\2\3\'\3\3"+
+		"\2\2\2(,\5\6\4\2),\5\b\5\2*,\5\n\6\2+(\3\2\2\2+)\3\2\2\2+*\3\2\2\2,\5"+
+		"\3\2\2\2-.\7\30\2\2./\7\33\2\2/\60\7\17\2\2\60\61\5\f\7\2\61\7\3\2\2\2"+
+		"\62\63\7\33\2\2\63\64\7\17\2\2\64\65\5\f\7\2\65\t\3\2\2\2\66\67\7\27\2"+
+		"\2\678\7\7\2\289\5\f\7\29:\7\b\2\2:\13\3\2\2\2;<\5\16\b\2<=\5\20\t\2="+
+		"?\3\2\2\2>;\3\2\2\2?B\3\2\2\2@>\3\2\2\2@A\3\2\2\2AC\3\2\2\2B@\3\2\2\2"+
+		"CD\5\16\b\2D\r\3\2\2\2EF\5\24\13\2FG\5\22\n\2GI\3\2\2\2HE\3\2\2\2IL\3"+
+		"\2\2\2JH\3\2\2\2JK\3\2\2\2KM\3\2\2\2LJ\3\2\2\2MN\5\24\13\2N\17\3\2\2\2"+
+		"OP\t\2\2\2P\21\3\2\2\2QR\t\3\2\2R\23\3\2\2\2SW\5\26\f\2TW\5\30\r\2UW\5"+
+		"\32\16\2VS\3\2\2\2VT\3\2\2\2VU\3\2\2\2W\25\3\2\2\2XY\7\7\2\2YZ\5\f\7\2"+
+		"Z[\7\b\2\2[\27\3\2\2\2\\]\7\33\2\2]\31\3\2\2\2^_\7\31\2\2_\33\3\2\2\2"+
+		"`a\7\26\2\2ab\7$\2\2bc\7#\2\2c\35\3\2\2\2\7#+@JV";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

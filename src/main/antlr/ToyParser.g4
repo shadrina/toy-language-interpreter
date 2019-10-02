@@ -42,12 +42,17 @@ multiplicativeOperator
 
 atomic
     : parenthesizedExpression
+    | identifier
     | literalConstant
     // | lineStringLiteral
     ;
 
 parenthesizedExpression
     : LPAREN expression RPAREN
+    ;
+
+identifier
+    : Identifier
     ;
 
 literalConstant
