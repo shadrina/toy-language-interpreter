@@ -56,7 +56,7 @@ identifier
     ;
 
 literalConstant
-    : IntegerLiteral
+    : SUB? IntegerLiteral
     // | NullLiteral
     ;
 

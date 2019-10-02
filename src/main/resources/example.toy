@@ -1,3 +1,11 @@
-print(321 + 1 + 1 - 12);
-print(123 + 23232323);
-print(1 + 1 / 1 + 2000 / (100 + 100));
+// Declaration
+val a = -1 + -2 + 3;
+print(a);
+
+// Assignment
+a = 1 + 1 / 1 + 2000 / (100 + 100);
+print(a);
+
+// Expressions
+print(32767);
+print(12345);

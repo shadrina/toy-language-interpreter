@@ -12,9 +12,7 @@ import static org.objectweb.asm.Opcodes.*;
 
 public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
     private MethodVisitor methodVisitor;
-
     private Map<String, Integer> variableToIndexMapping = new HashMap<>();
-
     private int maxLocals = 1;
 
     ToyVisitor(ClassVisitor classVisitor) {
@@ -52,7 +50,14 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
 
     @Override
     public MethodVisitor visitAssignment(ToyParser.AssignmentContext ctx) {
-        return super.visitAssignment(ctx);
+        var identifier = ctx.Identifier().getText();
+        var index = variableToIndexMapping.getOrDefault(identifier, null);
+        if (index == null) {
+            throw new RuntimeException("Unknown variable " + identifier);
+        }
+        ctx.expression().accept(this);
+        methodVisitor.visitVarInsn(ISTORE, index);
+        return methodVisitor;
     }
 
     @Override
@@ -142,10 +147,13 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
     @Override
     public MethodVisitor visitLiteralConstant(ToyParser.LiteralConstantContext ctx) {
         var constant = Integer.parseInt(ctx.getText());
-        if (constant > 127) {
+        // TODO: Use iconst_* for small numbers
+        if (constant < 128) {
+            methodVisitor.visitIntInsn(BIPUSH, constant);
+        } else if (constant < 32768) {
             methodVisitor.visitIntInsn(SIPUSH, constant);
         } else {
-            methodVisitor.visitIntInsn(BIPUSH, constant);
+            methodVisitor.visitLdcInsn(constant);
         }
         return methodVisitor;
     }

@@ -702,6 +702,7 @@ public class ToyParser extends Parser {
 				identifier();
 				}
 				break;
+			case SUB:
 			case IntegerLiteral:
 				enterOuterAlt(_localctx, 3);
 				{
@@ -818,6 +819,7 @@ public class ToyParser extends Parser {
 
 	public static class LiteralConstantContext extends ParserRuleContext {
 		public TerminalNode IntegerLiteral() { return getToken(ToyParser.IntegerLiteral, 0); }
+		public TerminalNode SUB() { return getToken(ToyParser.SUB, 0); }
 		public LiteralConstantContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -840,10 +842,21 @@ public class ToyParser extends Parser {
 	public final LiteralConstantContext literalConstant() throws RecognitionException {
 		LiteralConstantContext _localctx = new LiteralConstantContext(_ctx, getState());
 		enterRule(_localctx, 24, RULE_literalConstant);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(92);
+			setState(93);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==SUB) {
+				{
+				setState(92);
+				match(SUB);
+				}
+			}
+
+			setState(95);
 			match(IntegerLiteral);
 			}
 		}
@@ -887,11 +900,11 @@ public class ToyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(94);
+			setState(97);
 			match(QUOTE_OPEN);
-			setState(95);
+			setState(98);
 			match(LineStringText);
-			setState(96);
+			setState(99);
 			match(QUOTE_CLOSE);
 			}
 		}
@@ -907,29 +920,30 @@ public class ToyParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3$e\4\2\t\2\4\3\t\3"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3$h\4\2\t\2\4\3\t\3"+
 		"\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f"+
 		"\t\f\4\r\t\r\4\16\t\16\4\17\t\17\3\2\3\2\3\2\7\2\"\n\2\f\2\16\2%\13\2"+
 		"\3\2\3\2\3\3\3\3\3\3\5\3,\n\3\3\4\3\4\3\4\3\4\3\4\3\5\3\5\3\5\3\5\3\6"+
 		"\3\6\3\6\3\6\3\6\3\7\3\7\3\7\7\7?\n\7\f\7\16\7B\13\7\3\7\3\7\3\b\3\b\3"+
 		"\b\7\bI\n\b\f\b\16\bL\13\b\3\b\3\b\3\t\3\t\3\n\3\n\3\13\3\13\3\13\5\13"+
-		"W\n\13\3\f\3\f\3\f\3\f\3\r\3\r\3\16\3\16\3\17\3\17\3\17\3\17\3\17\2\2"+
-		"\20\2\4\6\b\n\f\16\20\22\24\26\30\32\34\2\4\3\2\f\r\3\2\t\13\2]\2#\3\2"+
-		"\2\2\4+\3\2\2\2\6-\3\2\2\2\b\62\3\2\2\2\n\66\3\2\2\2\f@\3\2\2\2\16J\3"+
-		"\2\2\2\20O\3\2\2\2\22Q\3\2\2\2\24V\3\2\2\2\26X\3\2\2\2\30\\\3\2\2\2\32"+
-		"^\3\2\2\2\34`\3\2\2\2\36\37\5\4\3\2\37 \7\16\2\2 \"\3\2\2\2!\36\3\2\2"+
-		"\2\"%\3\2\2\2#!\3\2\2\2#$\3\2\2\2$&\3\2\2\2%#\3\2\2\2&\'\7\2\2\3\'\3\3"+
-		"\2\2\2(,\5\6\4\2),\5\b\5\2*,\5\n\6\2+(\3\2\2\2+)\3\2\2\2+*\3\2\2\2,\5"+
-		"\3\2\2\2-.\7\30\2\2./\7\33\2\2/\60\7\17\2\2\60\61\5\f\7\2\61\7\3\2\2\2"+
-		"\62\63\7\33\2\2\63\64\7\17\2\2\64\65\5\f\7\2\65\t\3\2\2\2\66\67\7\27\2"+
-		"\2\678\7\7\2\289\5\f\7\29:\7\b\2\2:\13\3\2\2\2;<\5\16\b\2<=\5\20\t\2="+
-		"?\3\2\2\2>;\3\2\2\2?B\3\2\2\2@>\3\2\2\2@A\3\2\2\2AC\3\2\2\2B@\3\2\2\2"+
-		"CD\5\16\b\2D\r\3\2\2\2EF\5\24\13\2FG\5\22\n\2GI\3\2\2\2HE\3\2\2\2IL\3"+
-		"\2\2\2JH\3\2\2\2JK\3\2\2\2KM\3\2\2\2LJ\3\2\2\2MN\5\24\13\2N\17\3\2\2\2"+
-		"OP\t\2\2\2P\21\3\2\2\2QR\t\3\2\2R\23\3\2\2\2SW\5\26\f\2TW\5\30\r\2UW\5"+
-		"\32\16\2VS\3\2\2\2VT\3\2\2\2VU\3\2\2\2W\25\3\2\2\2XY\7\7\2\2YZ\5\f\7\2"+
-		"Z[\7\b\2\2[\27\3\2\2\2\\]\7\33\2\2]\31\3\2\2\2^_\7\31\2\2_\33\3\2\2\2"+
-		"`a\7\26\2\2ab\7$\2\2bc\7#\2\2c\35\3\2\2\2\7#+@JV";
+		"W\n\13\3\f\3\f\3\f\3\f\3\r\3\r\3\16\5\16`\n\16\3\16\3\16\3\17\3\17\3\17"+
+		"\3\17\3\17\2\2\20\2\4\6\b\n\f\16\20\22\24\26\30\32\34\2\4\3\2\f\r\3\2"+
+		"\t\13\2a\2#\3\2\2\2\4+\3\2\2\2\6-\3\2\2\2\b\62\3\2\2\2\n\66\3\2\2\2\f"+
+		"@\3\2\2\2\16J\3\2\2\2\20O\3\2\2\2\22Q\3\2\2\2\24V\3\2\2\2\26X\3\2\2\2"+
+		"\30\\\3\2\2\2\32_\3\2\2\2\34c\3\2\2\2\36\37\5\4\3\2\37 \7\16\2\2 \"\3"+
+		"\2\2\2!\36\3\2\2\2\"%\3\2\2\2#!\3\2\2\2#$\3\2\2\2$&\3\2\2\2%#\3\2\2\2"+
+		"&\'\7\2\2\3\'\3\3\2\2\2(,\5\6\4\2),\5\b\5\2*,\5\n\6\2+(\3\2\2\2+)\3\2"+
+		"\2\2+*\3\2\2\2,\5\3\2\2\2-.\7\30\2\2./\7\33\2\2/\60\7\17\2\2\60\61\5\f"+
+		"\7\2\61\7\3\2\2\2\62\63\7\33\2\2\63\64\7\17\2\2\64\65\5\f\7\2\65\t\3\2"+
+		"\2\2\66\67\7\27\2\2\678\7\7\2\289\5\f\7\29:\7\b\2\2:\13\3\2\2\2;<\5\16"+
+		"\b\2<=\5\20\t\2=?\3\2\2\2>;\3\2\2\2?B\3\2\2\2@>\3\2\2\2@A\3\2\2\2AC\3"+
+		"\2\2\2B@\3\2\2\2CD\5\16\b\2D\r\3\2\2\2EF\5\24\13\2FG\5\22\n\2GI\3\2\2"+
+		"\2HE\3\2\2\2IL\3\2\2\2JH\3\2\2\2JK\3\2\2\2KM\3\2\2\2LJ\3\2\2\2MN\5\24"+
+		"\13\2N\17\3\2\2\2OP\t\2\2\2P\21\3\2\2\2QR\t\3\2\2R\23\3\2\2\2SW\5\26\f"+
+		"\2TW\5\30\r\2UW\5\32\16\2VS\3\2\2\2VT\3\2\2\2VU\3\2\2\2W\25\3\2\2\2XY"+
+		"\7\7\2\2YZ\5\f\7\2Z[\7\b\2\2[\27\3\2\2\2\\]\7\33\2\2]\31\3\2\2\2^`\7\r"+
+		"\2\2_^\3\2\2\2_`\3\2\2\2`a\3\2\2\2ab\7\31\2\2b\33\3\2\2\2cd\7\26\2\2d"+
+		"e\7$\2\2ef\7#\2\2f\35\3\2\2\2\b#+@JV_";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
