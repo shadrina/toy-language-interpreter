@@ -142,7 +142,11 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
     @Override
     public MethodVisitor visitLiteralConstant(ToyParser.LiteralConstantContext ctx) {
         var constant = Integer.parseInt(ctx.getText());
-        methodVisitor.visitIntInsn(BIPUSH, constant);
+        if (constant > 127) {
+            methodVisitor.visitIntInsn(SIPUSH, constant);
+        } else {
+            methodVisitor.visitIntInsn(BIPUSH, constant);
+        }
         return methodVisitor;
     }
 }
