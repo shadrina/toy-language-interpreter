@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.*;
 import org.objectweb.asm.ClassWriter;
 import ru.nsu.shadrina.toy.Main;
 import ru.nsu.shadrina.toy.antlr.ToyLexer;
@@ -29,26 +26,26 @@ public class ToyCompiler {
 
     public void run(String[] args) {
         var options = new Options();
-
-        var input = new Option("f", "file", true, "File to compile");
-        input.setRequired(true);
-        options.addOption(input);
-
+        configureOptions(options);
         try {
             var parser = new DefaultParser();
             var cmd = parser.parse(options, args);
             var fileName = cmd.getOptionValue("f");
             var classLoader = Main.class.getClassLoader();
-            var file = new File(Objects.requireNonNull(classLoader.getResource(fileName)).getFile());
+            var filePath = Objects.requireNonNull(classLoader.getResource(fileName));
+            var file = new File(filePath.getFile());
             var content = new String(Files.readAllBytes(file.toPath()));
-            var compiler = new ToyCompiler();
-            compiler.compile(content);
+            compile(content);
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (ParseException | IOException e) {
+            System.err.println(e.getMessage());
         }
+    }
+
+    private void configureOptions(Options options) {
+        var input = new Option("f", "file", true, "File to compile");
+        input.setRequired(true);
+        options.addOption(input);
     }
 
     private void compile(String code) {
@@ -61,18 +58,10 @@ public class ToyCompiler {
         new ToyVisitor(classWriter).visit(tree);
 
         classWriter.visitEnd();
-        writeClassFile(classWriter.toByteArray());
-    }
-
-    private void writeClassFile(byte[] bytes) {
-        try (var fos = new FileOutputStream(generatedFileName())) {
-            fos.write(bytes);
+        try (var fos = new FileOutputStream(outputPath + generatedClassName + ".class")) {
+            fos.write(classWriter.toByteArray());
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
-    }
-
-    private String generatedFileName() {
-        return generatedClassName + ".class";
     }
 }
