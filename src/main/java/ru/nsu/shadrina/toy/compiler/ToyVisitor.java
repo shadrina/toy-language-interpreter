@@ -11,6 +11,9 @@ import java.util.Map;
 import static org.objectweb.asm.Opcodes.*;
 
 public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
+    private static int BIPUSH_MAX = 128;
+    private static int SIPUSH_MAX = 32768;
+
     private MethodVisitor methodVisitor;
     private Map<String, Integer> variableToIndexMapping = new HashMap<>();
     private int maxLocals = 1;
@@ -148,9 +151,9 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
     public MethodVisitor visitLiteralConstant(ToyParser.LiteralConstantContext ctx) {
         var constant = Integer.parseInt(ctx.getText());
         // TODO: Use iconst_* for small numbers
-        if (constant < 128) {
+        if (constant >= -BIPUSH_MAX && constant < BIPUSH_MAX) {
             methodVisitor.visitIntInsn(BIPUSH, constant);
-        } else if (constant < 32768) {
+        } else if (constant >= -SIPUSH_MAX && constant < SIPUSH_MAX) {
             methodVisitor.visitIntInsn(SIPUSH, constant);
         } else {
             methodVisitor.visitLdcInsn(constant);

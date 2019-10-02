@@ -1,5 +1,5 @@
 // Declaration
-val a = -1 + -2 + 3;
+val a = -10000 + -2 + 3;
 print(a);
 
 // Assignment
