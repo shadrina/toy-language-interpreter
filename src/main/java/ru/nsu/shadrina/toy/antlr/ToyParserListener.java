@@ -88,16 +88,6 @@ public interface ToyParserListener extends ParseTreeListener {
 	 */
 	void exitAtomic(ToyParser.AtomicContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ToyParser#parenthesizedExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterParenthesizedExpression(ToyParser.ParenthesizedExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ToyParser#parenthesizedExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitParenthesizedExpression(ToyParser.ParenthesizedExpressionContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link ToyParser#literalConstant}.
 	 * @param ctx the parse tree
 	 */

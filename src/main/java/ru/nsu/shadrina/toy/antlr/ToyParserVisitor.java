@@ -59,12 +59,6 @@ public interface ToyParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAtomic(ToyParser.AtomicContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ToyParser#parenthesizedExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitParenthesizedExpression(ToyParser.ParenthesizedExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link ToyParser#literalConstant}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
