@@ -33,12 +33,6 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
     }
 
     @Override
-    public MethodVisitor visitStatement(ToyParser.StatementContext ctx) {
-        visitChildren(ctx);
-        return methodVisitor;
-    }
-
-    @Override
     public MethodVisitor visitDeclaration(ToyParser.DeclarationContext ctx) {
         var identifier = ctx.Identifier().getText();
         if (variableToIndexMapping.containsKey(identifier)) {
@@ -121,18 +115,6 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
                 methodVisitor.visitInsn(IREM);
                 break;
         }
-        return methodVisitor;
-    }
-
-    @Override
-    public MethodVisitor visitAtomic(ToyParser.AtomicContext ctx) {
-        visitChildren(ctx);
-        return methodVisitor;
-    }
-
-    @Override
-    public MethodVisitor visitParenthesizedExpression(ToyParser.ParenthesizedExpressionContext ctx) {
-        ctx.expression().accept(this);
         return methodVisitor;
     }
 
