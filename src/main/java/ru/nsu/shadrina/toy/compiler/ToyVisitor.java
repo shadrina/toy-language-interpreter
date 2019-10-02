@@ -54,18 +54,30 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
 
     @Override
     public MethodVisitor visitExpression(ToyParser.ExpressionContext ctx) {
-        ctx.atomic().accept(this);
-        var operation = ctx.operation();
-        var expression = ctx.expression();
-        if (operation != null && expression != null) {
-            expression.accept(this);
-            operation.accept(this);
+        ctx.term(0).accept(this);
+        var i = 0;
+        while (i + 1 < ctx.term().size()) {
+            ctx.term(i + 1).accept(this);
+            ctx.additiveOperator(i).accept(this);
+            i++;
         }
         return methodVisitor;
     }
 
     @Override
-    public MethodVisitor visitOperation(ToyParser.OperationContext ctx) {
+    public MethodVisitor visitTerm(ToyParser.TermContext ctx) {
+        ctx.atomic(0).accept(this);
+        var i = 0;
+        while (i + 1 < ctx.atomic().size()) {
+            ctx.atomic(i + 1).accept(this);
+            ctx.multiplicativeOperator(i).accept(this);
+            i++;
+        }
+        return methodVisitor;
+    }
+
+    @Override
+    public MethodVisitor visitAdditiveOperator(ToyParser.AdditiveOperatorContext ctx) {
         switch (ctx.start.getType()) {
             case ToyParser.ADD:
                 methodVisitor.visitInsn(IADD);
@@ -73,10 +85,24 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
             case ToyParser.SUB:
                 methodVisitor.visitInsn(ISUB);
                 break;
-            default:
-                throw new RuntimeException("Unknown operation");
         }
-        return super.visitOperation(ctx);
+        return methodVisitor;
+    }
+
+    @Override
+    public MethodVisitor visitMultiplicativeOperator(ToyParser.MultiplicativeOperatorContext ctx) {
+        switch (ctx.start.getType()) {
+            case ToyParser.MULT:
+                methodVisitor.visitInsn(IMUL);
+                break;
+            case ToyParser.DIV:
+                methodVisitor.visitInsn(IDIV);
+                break;
+            case ToyParser.MOD:
+                methodVisitor.visitInsn(IREM);
+                break;
+        }
+        return methodVisitor;
     }
 
     @Override
@@ -90,6 +116,6 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
         var constant = Integer.parseInt(ctx.getText());
         methodVisitor.visitLdcInsn(constant);
         maxStack++;
-        return super.visitLiteralConstant(ctx);
+        return methodVisitor;
     }
 }

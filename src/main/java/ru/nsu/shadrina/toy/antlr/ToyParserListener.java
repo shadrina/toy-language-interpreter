@@ -68,15 +68,35 @@ public interface ToyParserListener extends ParseTreeListener {
 	 */
 	void exitExpression(ToyParser.ExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ToyParser#operation}.
+	 * Enter a parse tree produced by {@link ToyParser#term}.
 	 * @param ctx the parse tree
 	 */
-	void enterOperation(ToyParser.OperationContext ctx);
+	void enterTerm(ToyParser.TermContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ToyParser#operation}.
+	 * Exit a parse tree produced by {@link ToyParser#term}.
 	 * @param ctx the parse tree
 	 */
-	void exitOperation(ToyParser.OperationContext ctx);
+	void exitTerm(ToyParser.TermContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ToyParser#additiveOperator}.
+	 * @param ctx the parse tree
+	 */
+	void enterAdditiveOperator(ToyParser.AdditiveOperatorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ToyParser#additiveOperator}.
+	 * @param ctx the parse tree
+	 */
+	void exitAdditiveOperator(ToyParser.AdditiveOperatorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ToyParser#multiplicativeOperator}.
+	 * @param ctx the parse tree
+	 */
+	void enterMultiplicativeOperator(ToyParser.MultiplicativeOperatorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ToyParser#multiplicativeOperator}.
+	 * @param ctx the parse tree
+	 */
+	void exitMultiplicativeOperator(ToyParser.MultiplicativeOperatorContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ToyParser#atomic}.
 	 * @param ctx the parse tree
@@ -87,6 +107,16 @@ public interface ToyParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAtomic(ToyParser.AtomicContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ToyParser#parenthesizedExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterParenthesizedExpression(ToyParser.ParenthesizedExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ToyParser#parenthesizedExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitParenthesizedExpression(ToyParser.ParenthesizedExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ToyParser#literalConstant}.
 	 * @param ctx the parse tree

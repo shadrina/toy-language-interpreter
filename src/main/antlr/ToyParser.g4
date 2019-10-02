@@ -25,11 +25,19 @@ printExpression
     ;
 
 expression
-    : atomic (operation expression)?
+    : (term additiveOperator)* term
     ;
 
-operation
-    : MULT | MOD | DIV | ADD | SUB
+term
+    : (atomic multiplicativeOperator)* atomic
+    ;
+
+additiveOperator
+    : ADD | SUB
+    ;
+
+multiplicativeOperator
+    : MULT | DIV | MOD
     ;
 
 atomic
