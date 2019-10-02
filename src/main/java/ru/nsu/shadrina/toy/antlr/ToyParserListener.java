@@ -18,6 +18,46 @@ public interface ToyParserListener extends ParseTreeListener {
 	 */
 	void exitFile(ToyParser.FileContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ToyParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterStatement(ToyParser.StatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ToyParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitStatement(ToyParser.StatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ToyParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterDeclaration(ToyParser.DeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ToyParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitDeclaration(ToyParser.DeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ToyParser#assignment}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssignment(ToyParser.AssignmentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ToyParser#assignment}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssignment(ToyParser.AssignmentContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ToyParser#printExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrintExpression(ToyParser.PrintExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ToyParser#printExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrintExpression(ToyParser.PrintExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ToyParser#expression}.
 	 * @param ctx the parse tree
 	 */
@@ -57,16 +97,6 @@ public interface ToyParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParenthesizedExpression(ToyParser.ParenthesizedExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ToyParser#printExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterPrintExpression(ToyParser.PrintExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ToyParser#printExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitPrintExpression(ToyParser.PrintExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ToyParser#literalConstant}.
 	 * @param ctx the parse tree

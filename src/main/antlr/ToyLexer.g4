@@ -45,6 +45,7 @@ QUOTE_OPEN: '"' -> pushMode(LineString) ;
 // Keywords
 
 PRINT: 'print';
+VAL:   'val';
 
 // Literals
 

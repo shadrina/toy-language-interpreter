@@ -17,6 +17,30 @@ public interface ToyParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFile(ToyParser.FileContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ToyParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatement(ToyParser.StatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ToyParser#declaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDeclaration(ToyParser.DeclarationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ToyParser#assignment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssignment(ToyParser.AssignmentContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ToyParser#printExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrintExpression(ToyParser.PrintExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ToyParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -40,12 +64,6 @@ public interface ToyParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitParenthesizedExpression(ToyParser.ParenthesizedExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ToyParser#printExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPrintExpression(ToyParser.PrintExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ToyParser#literalConstant}.
 	 * @param ctx the parse tree

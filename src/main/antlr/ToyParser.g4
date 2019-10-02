@@ -3,7 +3,25 @@ parser grammar ToyParser;
 options { tokenVocab = ToyLexer; }
 
 file
-    : (expression SEMICOLON)* EOF
+    : (statement SEMICOLON)* EOF
+    ;
+
+statement
+    : declaration
+    | assignment
+    | printExpression
+    ;
+
+declaration
+    : VAL Identifier ASSIGNMENT expression
+    ;
+
+assignment
+    : Identifier ASSIGNMENT expression
+    ;
+
+printExpression
+    : PRINT LPAREN expression RPAREN
     ;
 
 expression
@@ -16,17 +34,12 @@ operation
 
 atomic
     : parenthesizedExpression
-    | printExpression
     | lineStringLiteral
     | literalConstant
     ;
 
 parenthesizedExpression
     : LPAREN expression RPAREN
-    ;
-
-printExpression
-    : PRINT LPAREN expression RPAREN
     ;
 
 literalConstant
