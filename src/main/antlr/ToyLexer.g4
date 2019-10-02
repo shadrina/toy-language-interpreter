@@ -49,40 +49,9 @@ VAL:   'val';
 
 // Literals
 
-RealLiteral
-    : FloatLiteral
-    | DoubleLiteral
-    ;
-
-FloatLiteral
-    : (DoubleLiteral | IntegerLiteral) [fF]
-    ;
-
-DoubleLiteral
-    : ( (DecDigitNoZero DecDigit*)? '.'
-      | (DecDigitNoZero (DecDigit | '_')* DecDigit)? '.')
-     ( DecDigit+
-      | DecDigit (DecDigit | '_')+ DecDigit
-      | DecDigit+ [eE] ('+' | '-')? DecDigit+
-      | DecDigit+ [eE] ('+' | '-')? DecDigit (DecDigit | '_')+ DecDigit
-      | DecDigit (DecDigit | '_')+ DecDigit [eE] ('+' | '-')? DecDigit+
-      | DecDigit (DecDigit | '_')+ DecDigit [eE] ('+' | '-')? DecDigit (DecDigit | '_')+ DecDigit
-     )
-    ;
-
-LongLiteral
-    : (IntegerLiteral | HexLiteral | BinLiteral) 'L'
-    ;
-
 IntegerLiteral
-    : ('0'
+    : '0'
       | DecDigitNoZero DecDigit*
-      | DecDigitNoZero (DecDigit | '_')+ DecDigit
-      | DecDigitNoZero DecDigit* [eE] ('+' | '-')? DecDigit+
-      | DecDigitNoZero DecDigit* [eE] ('+' | '-')? DecDigit (DecDigit | '_')+ DecDigit
-      | DecDigitNoZero (DecDigit | '_')+ DecDigit [eE] ('+' | '-')? DecDigit+
-      | DecDigitNoZero (DecDigit | '_')+ DecDigit [eE] ('+' | '-')? DecDigit (DecDigit | '_')+ DecDigit
-      )
     ;
 
 fragment DecDigit
@@ -133,34 +102,12 @@ fragment UNICODE_CLASS_ND_NoZeros
 	| '\uff11'..'\uff19'
 	;
 
-HexLiteral
-    : '0' [xX] HexDigit (HexDigit | '_')*
-    ;
-
-fragment HexDigit
-    : [0-9a-fA-F]
-    ;
-
-BinLiteral
-    : '0' [bB] BinDigit (BinDigit | '_')*
-    ;
-
-fragment BinDigit
-    : [01]
-    ;
-
-BooleanLiteral
-    : 'true'
-    | 'false'
-    ;
-
 NullLiteral
     : 'null'
     ;
 
 Identifier
     : (Letter | '_') (Letter | '_' | DecDigit)*
-    | '`' ~('`')+ '`'
     ;
 
 fragment Letter
@@ -172,7 +119,7 @@ fragment Letter
     | UNICODE_CLASS_NL
     ;
 
-mode LineString ;
+mode LineString;
 
 QUOTE_CLOSE
     : '"' -> popMode

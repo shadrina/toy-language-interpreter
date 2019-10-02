@@ -25,7 +25,7 @@ printExpression
     ;
 
 expression
-    : atomic (operation atomic)*
+    : atomic (operation expression)?
     ;
 
 operation
@@ -33,25 +33,15 @@ operation
     ;
 
 atomic
-    : parenthesizedExpression
-    | lineStringLiteral
-    | literalConstant
-    ;
-
-parenthesizedExpression
-    : LPAREN expression RPAREN
+    : literalConstant
+    // | lineStringLiteral
     ;
 
 literalConstant
-    : BooleanLiteral
-    | IntegerLiteral
-    | HexLiteral
-    | BinLiteral
-    | RealLiteral
-    | NullLiteral
-    | LongLiteral
+    : IntegerLiteral
+    // | NullLiteral
     ;
 
 lineStringLiteral
-    : QUOTE_OPEN LineStringText* QUOTE_CLOSE
+    : QUOTE_OPEN LineStringText QUOTE_CLOSE
     ;
