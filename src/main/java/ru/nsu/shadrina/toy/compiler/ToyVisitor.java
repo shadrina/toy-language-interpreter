@@ -17,9 +17,7 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
 
     private MethodVisitor methodVisitor;
     private Map<String, Integer> variableToIndexMapping = new HashMap<>();
-
     private int maxLocals = 1;
-    private Label lastLabel;
 
     ToyVisitor(ClassVisitor classVisitor) {
         methodVisitor = classVisitor.visitMethod(ACC_PUBLIC + ACC_STATIC, "main", "([Ljava/lang/String;)V", null, null);
@@ -70,13 +68,11 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
 
     @Override
     public MethodVisitor visitIfExpression(ToyParser.IfExpressionContext ctx) {
-        if (ctx.expression().comparisonOperator() == null) {
-            throw new RuntimeException("Condition has to be comparison expression");
-        }
+        checkConditionExpression(ctx.expression());
         ctx.expression().accept(this);
-        methodVisitor.visitInsn(ICONST_1);
+        methodVisitor.visitInsn(ICONST_0);
         var elseLabel = new Label();
-        methodVisitor.visitJumpInsn(IF_ICMPNE, elseLabel);
+        methodVisitor.visitJumpInsn(IF_ICMPEQ, elseLabel);
         ctx.statements(0).accept(this);
         var nextLabel = new Label();
         methodVisitor.visitJumpInsn(GOTO, nextLabel);
@@ -89,12 +85,62 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
     }
 
     @Override
+    public MethodVisitor visitWhileDoExpression(ToyParser.WhileDoExpressionContext ctx) {
+        checkConditionExpression(ctx.expression());
+        var conditionLabel = new Label();
+        var nextLabel = new Label();
+        methodVisitor.visitLabel(conditionLabel);
+        ctx.expression().accept(this);
+        methodVisitor.visitInsn(ICONST_0);
+        methodVisitor.visitJumpInsn(IF_ICMPEQ, nextLabel);
+        ctx.statements().accept(this);
+        methodVisitor.visitJumpInsn(GOTO, conditionLabel);
+        methodVisitor.visitLabel(nextLabel);
+        return methodVisitor;
+    }
+
+    @Override
+    public MethodVisitor visitDoWhileExpression(ToyParser.DoWhileExpressionContext ctx) {
+        checkConditionExpression(ctx.expression());
+        var bodyLabel = new Label();
+        methodVisitor.visitLabel(bodyLabel);
+        ctx.statements().accept(this);
+        ctx.expression().accept(this);
+        methodVisitor.visitInsn(ICONST_0);
+        methodVisitor.visitJumpInsn(IF_ICMPNE, bodyLabel);
+        return methodVisitor;
+    }
+
+    @Override
     public MethodVisitor visitExpression(ToyParser.ExpressionContext ctx) {
         ctx.additiveExpression(0).accept(this);
         if (ctx.comparisonOperator() != null) {
             ctx.additiveExpression(1).accept(this);
             var elseLabel = new Label();
-            lastLabel = elseLabel;
+            int ifInstruction;
+            switch (ctx.comparisonOperator().start.getType()) {
+                case ToyParser.LANGLE:
+                    ifInstruction = IF_ICMPGE;
+                    break;
+                case ToyParser.RANGLE:
+                    ifInstruction = IF_ICMPLE;
+                    break;
+                case ToyParser.LE:
+                    ifInstruction = IF_ICMPGT;
+                    break;
+                case ToyParser.GE:
+                    ifInstruction = IF_ICMPLT;
+                    break;
+                case ToyParser.EXCL_EQ:
+                    ifInstruction = IF_ICMPEQ;
+                    break;
+                case ToyParser.EQEQ:
+                    ifInstruction = IF_ICMPNE;
+                    break;
+                default:
+                    throw new RuntimeException("Operator " + ctx.comparisonOperator().getText() + " not supported yet");
+            }
+            methodVisitor.visitJumpInsn(ifInstruction, elseLabel);
             ctx.comparisonOperator().accept(this);
             methodVisitor.visitInsn(ICONST_1);
             var nextLabel = new Label();
@@ -126,31 +172,6 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
             ctx.atomic(i + 1).accept(this);
             ctx.multiplicativeOperator(i).accept(this);
             i++;
-        }
-        return methodVisitor;
-    }
-
-    @Override
-    public MethodVisitor visitComparisonOperator(ToyParser.ComparisonOperatorContext ctx) {
-        switch (ctx.start.getType()) {
-            case ToyParser.LANGLE:
-                methodVisitor.visitJumpInsn(IF_ICMPGT, lastLabel);
-                break;
-            case ToyParser.RANGLE:
-                methodVisitor.visitJumpInsn(IF_ICMPLT, lastLabel);
-                break;
-            case ToyParser.LE:
-                methodVisitor.visitJumpInsn(IF_ICMPGE, lastLabel);
-                break;
-            case ToyParser.GE:
-                methodVisitor.visitJumpInsn(IF_ICMPLE, lastLabel);
-                break;
-            case ToyParser.EXCL_EQ:
-                methodVisitor.visitJumpInsn(IF_ICMPEQ, lastLabel);
-                break;
-            case ToyParser.EQEQ:
-                methodVisitor.visitJumpInsn(IF_ICMPNE, lastLabel);
-                break;
         }
         return methodVisitor;
     }
@@ -207,5 +228,11 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
             methodVisitor.visitLdcInsn(constant);
         }
         return methodVisitor;
+    }
+
+    private void checkConditionExpression(ToyParser.ExpressionContext ctx) {
+        if (ctx.comparisonOperator() == null) {
+            throw new RuntimeException("Condition has to be comparison expression");
+        }
     }
 }

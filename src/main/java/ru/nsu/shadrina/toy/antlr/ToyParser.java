@@ -20,23 +20,25 @@ public class ToyParser extends Parser {
 		DelimitedComment=1, LineComment=2, WS=3, NL=4, LPAREN=5, RPAREN=6, LCURL=7, 
 		RCURL=8, LSQUARE=9, RSQUARE=10, MULT=11, MOD=12, DIV=13, ADD=14, SUB=15, 
 		SEMICOLON=16, ASSIGNMENT=17, LANGLE=18, RANGLE=19, LE=20, GE=21, EXCL_EQ=22, 
-		EQEQ=23, QUOTE_OPEN=24, PRINT=25, VAL=26, IF=27, THEN=28, ELSE=29, IntegerLiteral=30, 
-		NullLiteral=31, Identifier=32, UNICODE_CLASS_LL=33, UNICODE_CLASS_LM=34, 
-		UNICODE_CLASS_LO=35, UNICODE_CLASS_LT=36, UNICODE_CLASS_LU=37, UNICODE_CLASS_ND=38, 
-		UNICODE_CLASS_NL=39, QUOTE_CLOSE=40, LineStringText=41;
+		EQEQ=23, QUOTE_OPEN=24, PRINT=25, VAL=26, IF=27, THEN=28, ELSE=29, WHILE=30, 
+		DO=31, IntegerLiteral=32, NullLiteral=33, Identifier=34, UNICODE_CLASS_LL=35, 
+		UNICODE_CLASS_LM=36, UNICODE_CLASS_LO=37, UNICODE_CLASS_LT=38, UNICODE_CLASS_LU=39, 
+		UNICODE_CLASS_ND=40, UNICODE_CLASS_NL=41, QUOTE_CLOSE=42, LineStringText=43;
 	public static final int
 		RULE_file = 0, RULE_statements = 1, RULE_statement = 2, RULE_declaration = 3, 
 		RULE_assignment = 4, RULE_printExpression = 5, RULE_ifExpression = 6, 
-		RULE_expression = 7, RULE_additiveExpression = 8, RULE_multiplicativeExpression = 9, 
-		RULE_comparisonOperator = 10, RULE_additiveOperator = 11, RULE_multiplicativeOperator = 12, 
-		RULE_atomic = 13, RULE_parenthesizedExpression = 14, RULE_identifier = 15, 
-		RULE_literalConstant = 16, RULE_lineStringLiteral = 17;
+		RULE_whileExpression = 7, RULE_whileDoExpression = 8, RULE_doWhileExpression = 9, 
+		RULE_expression = 10, RULE_additiveExpression = 11, RULE_multiplicativeExpression = 12, 
+		RULE_comparisonOperator = 13, RULE_additiveOperator = 14, RULE_multiplicativeOperator = 15, 
+		RULE_atomic = 16, RULE_parenthesizedExpression = 17, RULE_identifier = 18, 
+		RULE_literalConstant = 19, RULE_lineStringLiteral = 20;
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"file", "statements", "statement", "declaration", "assignment", "printExpression", 
-			"ifExpression", "expression", "additiveExpression", "multiplicativeExpression", 
-			"comparisonOperator", "additiveOperator", "multiplicativeOperator", "atomic", 
-			"parenthesizedExpression", "identifier", "literalConstant", "lineStringLiteral"
+			"ifExpression", "whileExpression", "whileDoExpression", "doWhileExpression", 
+			"expression", "additiveExpression", "multiplicativeExpression", "comparisonOperator", 
+			"additiveOperator", "multiplicativeOperator", "atomic", "parenthesizedExpression", 
+			"identifier", "literalConstant", "lineStringLiteral"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -46,7 +48,7 @@ public class ToyParser extends Parser {
 			null, null, null, null, null, "'('", "')'", "'{'", "'}'", "'['", "']'", 
 			"'*'", "'%'", "'/'", "'+'", "'-'", "';'", "'='", "'<'", "'>'", "'<='", 
 			"'>='", "'!='", "'=='", null, "'print'", "'val'", "'if'", "'then'", "'else'", 
-			null, "'null'"
+			"'while'", "'do'", null, "'null'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -55,10 +57,10 @@ public class ToyParser extends Parser {
 			null, "DelimitedComment", "LineComment", "WS", "NL", "LPAREN", "RPAREN", 
 			"LCURL", "RCURL", "LSQUARE", "RSQUARE", "MULT", "MOD", "DIV", "ADD", 
 			"SUB", "SEMICOLON", "ASSIGNMENT", "LANGLE", "RANGLE", "LE", "GE", "EXCL_EQ", 
-			"EQEQ", "QUOTE_OPEN", "PRINT", "VAL", "IF", "THEN", "ELSE", "IntegerLiteral", 
-			"NullLiteral", "Identifier", "UNICODE_CLASS_LL", "UNICODE_CLASS_LM", 
-			"UNICODE_CLASS_LO", "UNICODE_CLASS_LT", "UNICODE_CLASS_LU", "UNICODE_CLASS_ND", 
-			"UNICODE_CLASS_NL", "QUOTE_CLOSE", "LineStringText"
+			"EQEQ", "QUOTE_OPEN", "PRINT", "VAL", "IF", "THEN", "ELSE", "WHILE", 
+			"DO", "IntegerLiteral", "NullLiteral", "Identifier", "UNICODE_CLASS_LL", 
+			"UNICODE_CLASS_LM", "UNICODE_CLASS_LO", "UNICODE_CLASS_LT", "UNICODE_CLASS_LU", 
+			"UNICODE_CLASS_ND", "UNICODE_CLASS_NL", "QUOTE_CLOSE", "LineStringText"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -142,9 +144,9 @@ public class ToyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(36);
+			setState(42);
 			statements();
-			setState(37);
+			setState(43);
 			match(EOF);
 			}
 		}
@@ -196,19 +198,19 @@ public class ToyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(44);
+			setState(50);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PRINT) | (1L << VAL) | (1L << IF) | (1L << Identifier))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PRINT) | (1L << VAL) | (1L << IF) | (1L << WHILE) | (1L << DO) | (1L << Identifier))) != 0)) {
 				{
 				{
-				setState(39);
+				setState(45);
 				statement();
-				setState(40);
+				setState(46);
 				match(SEMICOLON);
 				}
 				}
-				setState(46);
+				setState(52);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -238,6 +240,9 @@ public class ToyParser extends Parser {
 		public IfExpressionContext ifExpression() {
 			return getRuleContext(IfExpressionContext.class,0);
 		}
+		public WhileExpressionContext whileExpression() {
+			return getRuleContext(WhileExpressionContext.class,0);
+		}
 		public StatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -261,35 +266,43 @@ public class ToyParser extends Parser {
 		StatementContext _localctx = new StatementContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_statement);
 		try {
-			setState(51);
+			setState(58);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case VAL:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(47);
+				setState(53);
 				declaration();
 				}
 				break;
 			case Identifier:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(48);
+				setState(54);
 				assignment();
 				}
 				break;
 			case PRINT:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(49);
+				setState(55);
 				printExpression();
 				}
 				break;
 			case IF:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(50);
+				setState(56);
 				ifExpression();
+				}
+				break;
+			case WHILE:
+			case DO:
+				enterOuterAlt(_localctx, 5);
+				{
+				setState(57);
+				whileExpression();
 				}
 				break;
 			default:
@@ -339,13 +352,13 @@ public class ToyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(53);
+			setState(60);
 			match(VAL);
-			setState(54);
+			setState(61);
 			match(Identifier);
-			setState(55);
+			setState(62);
 			match(ASSIGNMENT);
-			setState(56);
+			setState(63);
 			expression();
 			}
 		}
@@ -391,11 +404,11 @@ public class ToyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(58);
+			setState(65);
 			match(Identifier);
-			setState(59);
+			setState(66);
 			match(ASSIGNMENT);
-			setState(60);
+			setState(67);
 			expression();
 			}
 		}
@@ -442,13 +455,13 @@ public class ToyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(62);
+			setState(69);
 			match(PRINT);
-			setState(63);
+			setState(70);
 			match(LPAREN);
-			setState(64);
+			setState(71);
 			expression();
-			setState(65);
+			setState(72);
 			match(RPAREN);
 			}
 		}
@@ -512,38 +525,234 @@ public class ToyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(67);
-			match(IF);
-			setState(68);
-			match(LPAREN);
-			setState(69);
-			expression();
-			setState(70);
-			match(RPAREN);
-			setState(71);
-			match(THEN);
-			setState(72);
-			match(LCURL);
-			setState(73);
-			statements();
 			setState(74);
-			match(RCURL);
+			match(IF);
+			setState(75);
+			match(LPAREN);
+			setState(76);
+			expression();
+			setState(77);
+			match(RPAREN);
+			setState(78);
+			match(THEN);
+			setState(79);
+			match(LCURL);
 			setState(80);
+			statements();
+			setState(81);
+			match(RCURL);
+			setState(87);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==ELSE) {
 				{
-				setState(75);
+				setState(82);
 				match(ELSE);
-				setState(76);
+				setState(83);
 				match(LCURL);
-				setState(77);
+				setState(84);
 				statements();
-				setState(78);
+				setState(85);
 				match(RCURL);
 				}
 			}
 
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class WhileExpressionContext extends ParserRuleContext {
+		public WhileDoExpressionContext whileDoExpression() {
+			return getRuleContext(WhileDoExpressionContext.class,0);
+		}
+		public DoWhileExpressionContext doWhileExpression() {
+			return getRuleContext(DoWhileExpressionContext.class,0);
+		}
+		public WhileExpressionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_whileExpression; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ToyParserListener ) ((ToyParserListener)listener).enterWhileExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ToyParserListener ) ((ToyParserListener)listener).exitWhileExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ToyParserVisitor ) return ((ToyParserVisitor<? extends T>)visitor).visitWhileExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final WhileExpressionContext whileExpression() throws RecognitionException {
+		WhileExpressionContext _localctx = new WhileExpressionContext(_ctx, getState());
+		enterRule(_localctx, 14, RULE_whileExpression);
+		try {
+			setState(91);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case WHILE:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(89);
+				whileDoExpression();
+				}
+				break;
+			case DO:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(90);
+				doWhileExpression();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class WhileDoExpressionContext extends ParserRuleContext {
+		public TerminalNode WHILE() { return getToken(ToyParser.WHILE, 0); }
+		public TerminalNode LPAREN() { return getToken(ToyParser.LPAREN, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public TerminalNode RPAREN() { return getToken(ToyParser.RPAREN, 0); }
+		public TerminalNode DO() { return getToken(ToyParser.DO, 0); }
+		public TerminalNode LCURL() { return getToken(ToyParser.LCURL, 0); }
+		public StatementsContext statements() {
+			return getRuleContext(StatementsContext.class,0);
+		}
+		public TerminalNode RCURL() { return getToken(ToyParser.RCURL, 0); }
+		public WhileDoExpressionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_whileDoExpression; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ToyParserListener ) ((ToyParserListener)listener).enterWhileDoExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ToyParserListener ) ((ToyParserListener)listener).exitWhileDoExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ToyParserVisitor ) return ((ToyParserVisitor<? extends T>)visitor).visitWhileDoExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final WhileDoExpressionContext whileDoExpression() throws RecognitionException {
+		WhileDoExpressionContext _localctx = new WhileDoExpressionContext(_ctx, getState());
+		enterRule(_localctx, 16, RULE_whileDoExpression);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(93);
+			match(WHILE);
+			setState(94);
+			match(LPAREN);
+			setState(95);
+			expression();
+			setState(96);
+			match(RPAREN);
+			setState(97);
+			match(DO);
+			setState(98);
+			match(LCURL);
+			setState(99);
+			statements();
+			setState(100);
+			match(RCURL);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class DoWhileExpressionContext extends ParserRuleContext {
+		public TerminalNode DO() { return getToken(ToyParser.DO, 0); }
+		public TerminalNode LCURL() { return getToken(ToyParser.LCURL, 0); }
+		public StatementsContext statements() {
+			return getRuleContext(StatementsContext.class,0);
+		}
+		public TerminalNode RCURL() { return getToken(ToyParser.RCURL, 0); }
+		public TerminalNode WHILE() { return getToken(ToyParser.WHILE, 0); }
+		public TerminalNode LPAREN() { return getToken(ToyParser.LPAREN, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public TerminalNode RPAREN() { return getToken(ToyParser.RPAREN, 0); }
+		public DoWhileExpressionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_doWhileExpression; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ToyParserListener ) ((ToyParserListener)listener).enterDoWhileExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ToyParserListener ) ((ToyParserListener)listener).exitDoWhileExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ToyParserVisitor ) return ((ToyParserVisitor<? extends T>)visitor).visitDoWhileExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final DoWhileExpressionContext doWhileExpression() throws RecognitionException {
+		DoWhileExpressionContext _localctx = new DoWhileExpressionContext(_ctx, getState());
+		enterRule(_localctx, 18, RULE_doWhileExpression);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(102);
+			match(DO);
+			setState(103);
+			match(LCURL);
+			setState(104);
+			statements();
+			setState(105);
+			match(RCURL);
+			setState(106);
+			match(WHILE);
+			setState(107);
+			match(LPAREN);
+			setState(108);
+			expression();
+			setState(109);
+			match(RPAREN);
 			}
 		}
 		catch (RecognitionException re) {
@@ -588,21 +797,21 @@ public class ToyParser extends Parser {
 
 	public final ExpressionContext expression() throws RecognitionException {
 		ExpressionContext _localctx = new ExpressionContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_expression);
+		enterRule(_localctx, 20, RULE_expression);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(82);
+			setState(111);
 			additiveExpression();
-			setState(86);
+			setState(115);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LANGLE) | (1L << RANGLE) | (1L << LE) | (1L << GE) | (1L << EXCL_EQ) | (1L << EQEQ))) != 0)) {
 				{
-				setState(83);
+				setState(112);
 				comparisonOperator();
-				setState(84);
+				setState(113);
 				additiveExpression();
 				}
 			}
@@ -654,30 +863,30 @@ public class ToyParser extends Parser {
 
 	public final AdditiveExpressionContext additiveExpression() throws RecognitionException {
 		AdditiveExpressionContext _localctx = new AdditiveExpressionContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_additiveExpression);
+		enterRule(_localctx, 22, RULE_additiveExpression);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(93);
+			setState(122);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(88);
+					setState(117);
 					multiplicativeExpression();
-					setState(89);
+					setState(118);
 					additiveOperator();
 					}
 					} 
 				}
-				setState(95);
+				setState(124);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
 			}
-			setState(96);
+			setState(125);
 			multiplicativeExpression();
 			}
 		}
@@ -726,30 +935,30 @@ public class ToyParser extends Parser {
 
 	public final MultiplicativeExpressionContext multiplicativeExpression() throws RecognitionException {
 		MultiplicativeExpressionContext _localctx = new MultiplicativeExpressionContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_multiplicativeExpression);
+		enterRule(_localctx, 24, RULE_multiplicativeExpression);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(103);
+			setState(132);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(98);
+					setState(127);
 					atomic();
-					setState(99);
+					setState(128);
 					multiplicativeOperator();
 					}
 					} 
 				}
-				setState(105);
+				setState(134);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
 			}
-			setState(106);
+			setState(135);
 			atomic();
 			}
 		}
@@ -792,12 +1001,12 @@ public class ToyParser extends Parser {
 
 	public final ComparisonOperatorContext comparisonOperator() throws RecognitionException {
 		ComparisonOperatorContext _localctx = new ComparisonOperatorContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_comparisonOperator);
+		enterRule(_localctx, 26, RULE_comparisonOperator);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(108);
+			setState(137);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LANGLE) | (1L << RANGLE) | (1L << LE) | (1L << GE) | (1L << EXCL_EQ) | (1L << EQEQ))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -844,12 +1053,12 @@ public class ToyParser extends Parser {
 
 	public final AdditiveOperatorContext additiveOperator() throws RecognitionException {
 		AdditiveOperatorContext _localctx = new AdditiveOperatorContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_additiveOperator);
+		enterRule(_localctx, 28, RULE_additiveOperator);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(110);
+			setState(139);
 			_la = _input.LA(1);
 			if ( !(_la==ADD || _la==SUB) ) {
 			_errHandler.recoverInline(this);
@@ -897,12 +1106,12 @@ public class ToyParser extends Parser {
 
 	public final MultiplicativeOperatorContext multiplicativeOperator() throws RecognitionException {
 		MultiplicativeOperatorContext _localctx = new MultiplicativeOperatorContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_multiplicativeOperator);
+		enterRule(_localctx, 30, RULE_multiplicativeOperator);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(112);
+			setState(141);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << MULT) | (1L << MOD) | (1L << DIV))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -956,22 +1165,22 @@ public class ToyParser extends Parser {
 
 	public final AtomicContext atomic() throws RecognitionException {
 		AtomicContext _localctx = new AtomicContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_atomic);
+		enterRule(_localctx, 32, RULE_atomic);
 		try {
-			setState(117);
+			setState(146);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case LPAREN:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(114);
+				setState(143);
 				parenthesizedExpression();
 				}
 				break;
 			case Identifier:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(115);
+				setState(144);
 				identifier();
 				}
 				break;
@@ -979,7 +1188,7 @@ public class ToyParser extends Parser {
 			case IntegerLiteral:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(116);
+				setState(145);
 				literalConstant();
 				}
 				break;
@@ -1025,15 +1234,15 @@ public class ToyParser extends Parser {
 
 	public final ParenthesizedExpressionContext parenthesizedExpression() throws RecognitionException {
 		ParenthesizedExpressionContext _localctx = new ParenthesizedExpressionContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_parenthesizedExpression);
+		enterRule(_localctx, 34, RULE_parenthesizedExpression);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(119);
+			setState(148);
 			match(LPAREN);
-			setState(120);
+			setState(149);
 			expression();
-			setState(121);
+			setState(150);
 			match(RPAREN);
 			}
 		}
@@ -1071,11 +1280,11 @@ public class ToyParser extends Parser {
 
 	public final IdentifierContext identifier() throws RecognitionException {
 		IdentifierContext _localctx = new IdentifierContext(_ctx, getState());
-		enterRule(_localctx, 30, RULE_identifier);
+		enterRule(_localctx, 36, RULE_identifier);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(123);
+			setState(152);
 			match(Identifier);
 			}
 		}
@@ -1114,22 +1323,22 @@ public class ToyParser extends Parser {
 
 	public final LiteralConstantContext literalConstant() throws RecognitionException {
 		LiteralConstantContext _localctx = new LiteralConstantContext(_ctx, getState());
-		enterRule(_localctx, 32, RULE_literalConstant);
+		enterRule(_localctx, 38, RULE_literalConstant);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(126);
+			setState(155);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==SUB) {
 				{
-				setState(125);
+				setState(154);
 				match(SUB);
 				}
 			}
 
-			setState(128);
+			setState(157);
 			match(IntegerLiteral);
 			}
 		}
@@ -1169,15 +1378,15 @@ public class ToyParser extends Parser {
 
 	public final LineStringLiteralContext lineStringLiteral() throws RecognitionException {
 		LineStringLiteralContext _localctx = new LineStringLiteralContext(_ctx, getState());
-		enterRule(_localctx, 34, RULE_lineStringLiteral);
+		enterRule(_localctx, 40, RULE_lineStringLiteral);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(130);
+			setState(159);
 			match(QUOTE_OPEN);
-			setState(131);
+			setState(160);
 			match(LineStringText);
-			setState(132);
+			setState(161);
 			match(QUOTE_CLOSE);
 			}
 		}
@@ -1193,39 +1402,50 @@ public class ToyParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3+\u0089\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3-\u00a6\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
-		"\4\23\t\23\3\2\3\2\3\2\3\3\3\3\3\3\7\3-\n\3\f\3\16\3\60\13\3\3\4\3\4\3"+
-		"\4\3\4\5\4\66\n\4\3\5\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7"+
-		"\3\7\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\5\bS\n\b\3\t"+
-		"\3\t\3\t\3\t\5\tY\n\t\3\n\3\n\3\n\7\n^\n\n\f\n\16\na\13\n\3\n\3\n\3\13"+
-		"\3\13\3\13\7\13h\n\13\f\13\16\13k\13\13\3\13\3\13\3\f\3\f\3\r\3\r\3\16"+
-		"\3\16\3\17\3\17\3\17\5\17x\n\17\3\20\3\20\3\20\3\20\3\21\3\21\3\22\5\22"+
-		"\u0081\n\22\3\22\3\22\3\23\3\23\3\23\3\23\3\23\2\2\24\2\4\6\b\n\f\16\20"+
-		"\22\24\26\30\32\34\36 \"$\2\5\3\2\24\31\3\2\20\21\3\2\r\17\2\u0081\2&"+
-		"\3\2\2\2\4.\3\2\2\2\6\65\3\2\2\2\b\67\3\2\2\2\n<\3\2\2\2\f@\3\2\2\2\16"+
-		"E\3\2\2\2\20T\3\2\2\2\22_\3\2\2\2\24i\3\2\2\2\26n\3\2\2\2\30p\3\2\2\2"+
-		"\32r\3\2\2\2\34w\3\2\2\2\36y\3\2\2\2 }\3\2\2\2\"\u0080\3\2\2\2$\u0084"+
-		"\3\2\2\2&\'\5\4\3\2\'(\7\2\2\3(\3\3\2\2\2)*\5\6\4\2*+\7\22\2\2+-\3\2\2"+
-		"\2,)\3\2\2\2-\60\3\2\2\2.,\3\2\2\2./\3\2\2\2/\5\3\2\2\2\60.\3\2\2\2\61"+
-		"\66\5\b\5\2\62\66\5\n\6\2\63\66\5\f\7\2\64\66\5\16\b\2\65\61\3\2\2\2\65"+
-		"\62\3\2\2\2\65\63\3\2\2\2\65\64\3\2\2\2\66\7\3\2\2\2\678\7\34\2\289\7"+
-		"\"\2\29:\7\23\2\2:;\5\20\t\2;\t\3\2\2\2<=\7\"\2\2=>\7\23\2\2>?\5\20\t"+
-		"\2?\13\3\2\2\2@A\7\33\2\2AB\7\7\2\2BC\5\20\t\2CD\7\b\2\2D\r\3\2\2\2EF"+
-		"\7\35\2\2FG\7\7\2\2GH\5\20\t\2HI\7\b\2\2IJ\7\36\2\2JK\7\t\2\2KL\5\4\3"+
-		"\2LR\7\n\2\2MN\7\37\2\2NO\7\t\2\2OP\5\4\3\2PQ\7\n\2\2QS\3\2\2\2RM\3\2"+
-		"\2\2RS\3\2\2\2S\17\3\2\2\2TX\5\22\n\2UV\5\26\f\2VW\5\22\n\2WY\3\2\2\2"+
-		"XU\3\2\2\2XY\3\2\2\2Y\21\3\2\2\2Z[\5\24\13\2[\\\5\30\r\2\\^\3\2\2\2]Z"+
-		"\3\2\2\2^a\3\2\2\2_]\3\2\2\2_`\3\2\2\2`b\3\2\2\2a_\3\2\2\2bc\5\24\13\2"+
-		"c\23\3\2\2\2de\5\34\17\2ef\5\32\16\2fh\3\2\2\2gd\3\2\2\2hk\3\2\2\2ig\3"+
-		"\2\2\2ij\3\2\2\2jl\3\2\2\2ki\3\2\2\2lm\5\34\17\2m\25\3\2\2\2no\t\2\2\2"+
-		"o\27\3\2\2\2pq\t\3\2\2q\31\3\2\2\2rs\t\4\2\2s\33\3\2\2\2tx\5\36\20\2u"+
-		"x\5 \21\2vx\5\"\22\2wt\3\2\2\2wu\3\2\2\2wv\3\2\2\2x\35\3\2\2\2yz\7\7\2"+
-		"\2z{\5\20\t\2{|\7\b\2\2|\37\3\2\2\2}~\7\"\2\2~!\3\2\2\2\177\u0081\7\21"+
-		"\2\2\u0080\177\3\2\2\2\u0080\u0081\3\2\2\2\u0081\u0082\3\2\2\2\u0082\u0083"+
-		"\7 \2\2\u0083#\3\2\2\2\u0084\u0085\7\32\2\2\u0085\u0086\7+\2\2\u0086\u0087"+
-		"\7*\2\2\u0087%\3\2\2\2\n.\65RX_iw\u0080";
+		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\3\2\3\2\3\2\3\3\3\3\3\3\7\3\63"+
+		"\n\3\f\3\16\3\66\13\3\3\4\3\4\3\4\3\4\3\4\5\4=\n\4\3\5\3\5\3\5\3\5\3\5"+
+		"\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3"+
+		"\b\3\b\3\b\3\b\3\b\5\bZ\n\b\3\t\3\t\5\t^\n\t\3\n\3\n\3\n\3\n\3\n\3\n\3"+
+		"\n\3\n\3\n\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\f\3\f\3\f\3"+
+		"\f\5\fv\n\f\3\r\3\r\3\r\7\r{\n\r\f\r\16\r~\13\r\3\r\3\r\3\16\3\16\3\16"+
+		"\7\16\u0085\n\16\f\16\16\16\u0088\13\16\3\16\3\16\3\17\3\17\3\20\3\20"+
+		"\3\21\3\21\3\22\3\22\3\22\5\22\u0095\n\22\3\23\3\23\3\23\3\23\3\24\3\24"+
+		"\3\25\5\25\u009e\n\25\3\25\3\25\3\26\3\26\3\26\3\26\3\26\2\2\27\2\4\6"+
+		"\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*\2\5\3\2\24\31\3\2\20\21\3\2\r"+
+		"\17\2\u009d\2,\3\2\2\2\4\64\3\2\2\2\6<\3\2\2\2\b>\3\2\2\2\nC\3\2\2\2\f"+
+		"G\3\2\2\2\16L\3\2\2\2\20]\3\2\2\2\22_\3\2\2\2\24h\3\2\2\2\26q\3\2\2\2"+
+		"\30|\3\2\2\2\32\u0086\3\2\2\2\34\u008b\3\2\2\2\36\u008d\3\2\2\2 \u008f"+
+		"\3\2\2\2\"\u0094\3\2\2\2$\u0096\3\2\2\2&\u009a\3\2\2\2(\u009d\3\2\2\2"+
+		"*\u00a1\3\2\2\2,-\5\4\3\2-.\7\2\2\3.\3\3\2\2\2/\60\5\6\4\2\60\61\7\22"+
+		"\2\2\61\63\3\2\2\2\62/\3\2\2\2\63\66\3\2\2\2\64\62\3\2\2\2\64\65\3\2\2"+
+		"\2\65\5\3\2\2\2\66\64\3\2\2\2\67=\5\b\5\28=\5\n\6\29=\5\f\7\2:=\5\16\b"+
+		"\2;=\5\20\t\2<\67\3\2\2\2<8\3\2\2\2<9\3\2\2\2<:\3\2\2\2<;\3\2\2\2=\7\3"+
+		"\2\2\2>?\7\34\2\2?@\7$\2\2@A\7\23\2\2AB\5\26\f\2B\t\3\2\2\2CD\7$\2\2D"+
+		"E\7\23\2\2EF\5\26\f\2F\13\3\2\2\2GH\7\33\2\2HI\7\7\2\2IJ\5\26\f\2JK\7"+
+		"\b\2\2K\r\3\2\2\2LM\7\35\2\2MN\7\7\2\2NO\5\26\f\2OP\7\b\2\2PQ\7\36\2\2"+
+		"QR\7\t\2\2RS\5\4\3\2SY\7\n\2\2TU\7\37\2\2UV\7\t\2\2VW\5\4\3\2WX\7\n\2"+
+		"\2XZ\3\2\2\2YT\3\2\2\2YZ\3\2\2\2Z\17\3\2\2\2[^\5\22\n\2\\^\5\24\13\2]"+
+		"[\3\2\2\2]\\\3\2\2\2^\21\3\2\2\2_`\7 \2\2`a\7\7\2\2ab\5\26\f\2bc\7\b\2"+
+		"\2cd\7!\2\2de\7\t\2\2ef\5\4\3\2fg\7\n\2\2g\23\3\2\2\2hi\7!\2\2ij\7\t\2"+
+		"\2jk\5\4\3\2kl\7\n\2\2lm\7 \2\2mn\7\7\2\2no\5\26\f\2op\7\b\2\2p\25\3\2"+
+		"\2\2qu\5\30\r\2rs\5\34\17\2st\5\30\r\2tv\3\2\2\2ur\3\2\2\2uv\3\2\2\2v"+
+		"\27\3\2\2\2wx\5\32\16\2xy\5\36\20\2y{\3\2\2\2zw\3\2\2\2{~\3\2\2\2|z\3"+
+		"\2\2\2|}\3\2\2\2}\177\3\2\2\2~|\3\2\2\2\177\u0080\5\32\16\2\u0080\31\3"+
+		"\2\2\2\u0081\u0082\5\"\22\2\u0082\u0083\5 \21\2\u0083\u0085\3\2\2\2\u0084"+
+		"\u0081\3\2\2\2\u0085\u0088\3\2\2\2\u0086\u0084\3\2\2\2\u0086\u0087\3\2"+
+		"\2\2\u0087\u0089\3\2\2\2\u0088\u0086\3\2\2\2\u0089\u008a\5\"\22\2\u008a"+
+		"\33\3\2\2\2\u008b\u008c\t\2\2\2\u008c\35\3\2\2\2\u008d\u008e\t\3\2\2\u008e"+
+		"\37\3\2\2\2\u008f\u0090\t\4\2\2\u0090!\3\2\2\2\u0091\u0095\5$\23\2\u0092"+
+		"\u0095\5&\24\2\u0093\u0095\5(\25\2\u0094\u0091\3\2\2\2\u0094\u0092\3\2"+
+		"\2\2\u0094\u0093\3\2\2\2\u0095#\3\2\2\2\u0096\u0097\7\7\2\2\u0097\u0098"+
+		"\5\26\f\2\u0098\u0099\7\b\2\2\u0099%\3\2\2\2\u009a\u009b\7$\2\2\u009b"+
+		"\'\3\2\2\2\u009c\u009e\7\21\2\2\u009d\u009c\3\2\2\2\u009d\u009e\3\2\2"+
+		"\2\u009e\u009f\3\2\2\2\u009f\u00a0\7\"\2\2\u00a0)\3\2\2\2\u00a1\u00a2"+
+		"\7\32\2\2\u00a2\u00a3\7-\2\2\u00a3\u00a4\7,\2\2\u00a4+\3\2\2\2\13\64<"+
+		"Y]u|\u0086\u0094\u009d";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

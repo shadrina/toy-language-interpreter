@@ -15,6 +15,7 @@ statement
     | assignment
     | printExpression
     | ifExpression
+    | whileExpression
     ;
 
 declaration
@@ -31,6 +32,19 @@ printExpression
 
 ifExpression
     : IF LPAREN expression RPAREN THEN LCURL statements RCURL (ELSE LCURL statements RCURL)?
+    ;
+
+whileExpression
+    : whileDoExpression
+    | doWhileExpression
+    ;
+
+whileDoExpression
+    : WHILE LPAREN expression RPAREN DO LCURL statements RCURL
+    ;
+
+doWhileExpression
+    : DO LCURL statements RCURL WHILE LPAREN expression RPAREN
     ;
 
 expression

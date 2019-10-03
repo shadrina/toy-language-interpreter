@@ -53,6 +53,24 @@ public interface ToyParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfExpression(ToyParser.IfExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ToyParser#whileExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhileExpression(ToyParser.WhileExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ToyParser#whileDoExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhileDoExpression(ToyParser.WhileDoExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ToyParser#doWhileExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDoWhileExpression(ToyParser.DoWhileExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ToyParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

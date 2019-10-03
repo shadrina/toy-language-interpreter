@@ -53,6 +53,8 @@ VAL:   'val';
 IF:    'if';
 THEN:  'then';
 ELSE:  'else';
+WHILE: 'while';
+DO:    'do';
 
 // Literals
 

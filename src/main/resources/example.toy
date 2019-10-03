@@ -15,21 +15,30 @@ print(0 == 0);
 print(1 != 1);
 
 // If-expressions
-if (0 == 0) then {
+if (0 != 0) then {
     print(111);
 } else {
     print(222);
 };
-
 if (6754 > 23 * 54) then {
     val b = 48;
     print(b);
 };
-
 if (6754 <= 23 * 54) then {
     val c = 84;
     print(c);
 } else {
     print(123345667);
 };
+
+// While-expressions
+val i = 0;
+while (i < 10) do {
+    print(i);
+    i = i + 1;
+};
+do {
+    print(i);
+    i = i - 1;
+} while (i >= 0);
 

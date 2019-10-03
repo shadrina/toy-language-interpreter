@@ -78,6 +78,36 @@ public interface ToyParserListener extends ParseTreeListener {
 	 */
 	void exitIfExpression(ToyParser.IfExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ToyParser#whileExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhileExpression(ToyParser.WhileExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ToyParser#whileExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhileExpression(ToyParser.WhileExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ToyParser#whileDoExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhileDoExpression(ToyParser.WhileDoExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ToyParser#whileDoExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhileDoExpression(ToyParser.WhileDoExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ToyParser#doWhileExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterDoWhileExpression(ToyParser.DoWhileExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ToyParser#doWhileExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitDoWhileExpression(ToyParser.DoWhileExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ToyParser#expression}.
 	 * @param ctx the parse tree
 	 */
