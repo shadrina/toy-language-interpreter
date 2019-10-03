@@ -219,13 +219,34 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
     @Override
     public MethodVisitor visitLiteralConstant(ToyParser.LiteralConstantContext ctx) {
         var constant = Integer.parseInt(ctx.getText());
-        // TODO: Use iconst_* for small numbers
-        if (constant >= -BIPUSH_MAX && constant < BIPUSH_MAX) {
-            methodVisitor.visitIntInsn(BIPUSH, constant);
-        } else if (constant >= -SIPUSH_MAX && constant < SIPUSH_MAX) {
-            methodVisitor.visitIntInsn(SIPUSH, constant);
-        } else {
-            methodVisitor.visitLdcInsn(constant);
+        switch (constant) {
+            case 0:
+                methodVisitor.visitInsn(ICONST_0);
+                break;
+            case 1:
+                methodVisitor.visitInsn(ICONST_1);
+                break;
+            case 2:
+                methodVisitor.visitInsn(ICONST_2);
+                break;
+            case 3:
+                methodVisitor.visitInsn(ICONST_3);
+                break;
+            case 4:
+                methodVisitor.visitInsn(ICONST_4);
+                break;
+            case 5:
+                methodVisitor.visitInsn(ICONST_5);
+                break;
+            default:
+                if (constant >= -BIPUSH_MAX && constant < BIPUSH_MAX) {
+                    methodVisitor.visitIntInsn(BIPUSH, constant);
+                } else if (constant >= -SIPUSH_MAX && constant < SIPUSH_MAX) {
+                    methodVisitor.visitIntInsn(SIPUSH, constant);
+                } else {
+                    methodVisitor.visitLdcInsn(constant);
+                }
+                break;
         }
         return methodVisitor;
     }
