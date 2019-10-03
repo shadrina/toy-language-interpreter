@@ -69,6 +69,26 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
     }
 
     @Override
+    public MethodVisitor visitIfExpression(ToyParser.IfExpressionContext ctx) {
+        if (ctx.expression().comparisonOperator() == null) {
+            throw new RuntimeException("Condition has to be comparison expression");
+        }
+        ctx.expression().accept(this);
+        methodVisitor.visitInsn(ICONST_1);
+        var elseLabel = new Label();
+        methodVisitor.visitJumpInsn(IF_ICMPNE, elseLabel);
+        ctx.statements(0).accept(this);
+        var nextLabel = new Label();
+        methodVisitor.visitJumpInsn(GOTO, nextLabel);
+        methodVisitor.visitLabel(elseLabel);
+        if (ctx.statements().size() > 1) {
+            ctx.statements(1).accept(this);
+        }
+        methodVisitor.visitLabel(nextLabel);
+        return methodVisitor;
+    }
+
+    @Override
     public MethodVisitor visitExpression(ToyParser.ExpressionContext ctx) {
         ctx.additiveExpression(0).accept(this);
         if (ctx.comparisonOperator() != null) {
@@ -124,6 +144,12 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
                 break;
             case ToyParser.GE:
                 methodVisitor.visitJumpInsn(IF_ICMPLE, lastLabel);
+                break;
+            case ToyParser.EXCL_EQ:
+                methodVisitor.visitJumpInsn(IF_ICMPEQ, lastLabel);
+                break;
+            case ToyParser.EQEQ:
+                methodVisitor.visitJumpInsn(IF_ICMPNE, lastLabel);
                 break;
         }
         return methodVisitor;

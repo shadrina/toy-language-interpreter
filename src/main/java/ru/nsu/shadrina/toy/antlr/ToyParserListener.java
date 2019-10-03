@@ -18,6 +18,16 @@ public interface ToyParserListener extends ParseTreeListener {
 	 */
 	void exitFile(ToyParser.FileContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ToyParser#statements}.
+	 * @param ctx the parse tree
+	 */
+	void enterStatements(ToyParser.StatementsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ToyParser#statements}.
+	 * @param ctx the parse tree
+	 */
+	void exitStatements(ToyParser.StatementsContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ToyParser#statement}.
 	 * @param ctx the parse tree
 	 */
@@ -57,6 +67,16 @@ public interface ToyParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPrintExpression(ToyParser.PrintExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ToyParser#ifExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfExpression(ToyParser.IfExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ToyParser#ifExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfExpression(ToyParser.IfExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ToyParser#expression}.
 	 * @param ctx the parse tree

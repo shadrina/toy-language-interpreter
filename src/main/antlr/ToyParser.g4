@@ -3,13 +3,18 @@ parser grammar ToyParser;
 options { tokenVocab = ToyLexer; }
 
 file
-    : (statement SEMICOLON)* EOF
+    : statements EOF
+    ;
+
+statements
+    : (statement SEMICOLON)*
     ;
 
 statement
     : declaration
     | assignment
     | printExpression
+    | ifExpression
     ;
 
 declaration
@@ -22,6 +27,10 @@ assignment
 
 printExpression
     : PRINT LPAREN expression RPAREN
+    ;
+
+ifExpression
+    : IF LPAREN expression RPAREN THEN LCURL statements RCURL (ELSE LCURL statements RCURL)?
     ;
 
 expression
