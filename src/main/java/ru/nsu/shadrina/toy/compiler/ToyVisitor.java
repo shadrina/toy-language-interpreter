@@ -40,7 +40,7 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
             throw new RuntimeException("Variable with name " + identifier + " already exists");
         }
         ctx.expression().accept(this);
-        methodVisitor.visitVarInsn(ISTORE, maxLocals);
+        methodVisitor.visitVarInsn(ASTORE, maxLocals);
         variableToIndexMapping.put(identifier, maxLocals);
         maxLocals++;
         return methodVisitor;
@@ -54,7 +54,7 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
             throw new RuntimeException("Unknown variable " + identifier);
         }
         ctx.expression().accept(this);
-        methodVisitor.visitVarInsn(ISTORE, index);
+        methodVisitor.visitVarInsn(ASTORE, index);
         return methodVisitor;
     }
 
@@ -62,7 +62,7 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
     public MethodVisitor visitPrintExpression(ToyParser.PrintExpressionContext ctx) {
         methodVisitor.visitFieldInsn(GETSTATIC,"java/lang/System", "out", "Ljava/io/PrintStream;");
         ctx.expression().accept(this);
-        methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(I)V", false);
+        methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/Object;)V", false);
         return methodVisitor;
     }
 
@@ -70,6 +70,7 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
     public MethodVisitor visitIfExpression(ToyParser.IfExpressionContext ctx) {
         checkConditionExpression(ctx.expression());
         ctx.expression().accept(this);
+        unbox();
         methodVisitor.visitInsn(ICONST_0);
         var elseLabel = new Label();
         methodVisitor.visitJumpInsn(IF_ICMPEQ, elseLabel);
@@ -91,6 +92,7 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
         var nextLabel = new Label();
         methodVisitor.visitLabel(conditionLabel);
         ctx.expression().accept(this);
+        unbox();
         methodVisitor.visitInsn(ICONST_0);
         methodVisitor.visitJumpInsn(IF_ICMPEQ, nextLabel);
         ctx.statements().accept(this);
@@ -106,6 +108,7 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
         methodVisitor.visitLabel(bodyLabel);
         ctx.statements().accept(this);
         ctx.expression().accept(this);
+        unbox();
         methodVisitor.visitInsn(ICONST_0);
         methodVisitor.visitJumpInsn(IF_ICMPNE, bodyLabel);
         return methodVisitor;
@@ -114,8 +117,11 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
     @Override
     public MethodVisitor visitExpression(ToyParser.ExpressionContext ctx) {
         ctx.additiveExpression(0).accept(this);
+        if (ctx.additiveExpression().size() == 1) return methodVisitor;
+        unbox();
         if (ctx.comparisonOperator() != null) {
             ctx.additiveExpression(1).accept(this);
+            unbox();
             var elseLabel = new Label();
             int ifInstruction;
             switch (ctx.comparisonOperator().start.getType()) {
@@ -149,30 +155,39 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
             methodVisitor.visitInsn(ICONST_0);
             methodVisitor.visitLabel(nextLabel);
         }
+        box();
         return methodVisitor;
     }
 
     @Override
     public MethodVisitor visitAdditiveExpression(ToyParser.AdditiveExpressionContext ctx) {
         ctx.multiplicativeExpression(0).accept(this);
+        if (ctx.multiplicativeExpression().size() == 1) return methodVisitor;
+        unbox();
         var i = 0;
         while (i + 1 < ctx.multiplicativeExpression().size()) {
             ctx.multiplicativeExpression(i + 1).accept(this);
+            unbox();
             ctx.additiveOperator(i).accept(this);
             i++;
         }
+        box();
         return methodVisitor;
     }
 
     @Override
     public MethodVisitor visitMultiplicativeExpression(ToyParser.MultiplicativeExpressionContext ctx) {
         ctx.atomic(0).accept(this);
+        if (ctx.atomic().size() == 1) return methodVisitor;
+        unbox();
         var i = 0;
         while (i + 1 < ctx.atomic().size()) {
             ctx.atomic(i + 1).accept(this);
+            unbox();
             ctx.multiplicativeOperator(i).accept(this);
             i++;
         }
+        box();
         return methodVisitor;
     }
 
@@ -212,7 +227,14 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
         if (index == null) {
             throw new RuntimeException("Unknown variable " + identifier);
         }
-        methodVisitor.visitVarInsn(ILOAD, index);
+        methodVisitor.visitVarInsn(ALOAD, index);
+        return methodVisitor;
+    }
+
+    @Override
+    public MethodVisitor visitLineStringLiteral(ToyParser.LineStringLiteralContext ctx) {
+        var content = ctx.LineStringText().getText();
+        methodVisitor.visitLdcInsn(content);
         return methodVisitor;
     }
 
@@ -248,6 +270,7 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
                 }
                 break;
         }
+        box();
         return methodVisitor;
     }
 
@@ -255,5 +278,13 @@ public class ToyVisitor extends ToyParserBaseVisitor<MethodVisitor> {
         if (ctx.comparisonOperator() == null) {
             throw new RuntimeException("Condition has to be comparison expression");
         }
+    }
+
+    private void box() {
+        methodVisitor.visitMethodInsn(INVOKESTATIC, "java/lang/Integer", "valueOf", "(I)Ljava/lang/Integer;", false);
+    }
+
+    private void unbox() {
+        methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Integer", "intValue", "()I", false);
     }
 }

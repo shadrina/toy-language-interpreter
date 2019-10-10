@@ -1144,6 +1144,9 @@ public class ToyParser extends Parser {
 		public LiteralConstantContext literalConstant() {
 			return getRuleContext(LiteralConstantContext.class,0);
 		}
+		public LineStringLiteralContext lineStringLiteral() {
+			return getRuleContext(LineStringLiteralContext.class,0);
+		}
 		public AtomicContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1167,7 +1170,7 @@ public class ToyParser extends Parser {
 		AtomicContext _localctx = new AtomicContext(_ctx, getState());
 		enterRule(_localctx, 32, RULE_atomic);
 		try {
-			setState(146);
+			setState(147);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case LPAREN:
@@ -1190,6 +1193,13 @@ public class ToyParser extends Parser {
 				{
 				setState(145);
 				literalConstant();
+				}
+				break;
+			case QUOTE_OPEN:
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(146);
+				lineStringLiteral();
 				}
 				break;
 			default:
@@ -1238,11 +1248,11 @@ public class ToyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(148);
-			match(LPAREN);
 			setState(149);
-			expression();
+			match(LPAREN);
 			setState(150);
+			expression();
+			setState(151);
 			match(RPAREN);
 			}
 		}
@@ -1284,7 +1294,7 @@ public class ToyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(152);
+			setState(153);
 			match(Identifier);
 			}
 		}
@@ -1328,17 +1338,17 @@ public class ToyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(155);
+			setState(156);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==SUB) {
 				{
-				setState(154);
+				setState(155);
 				match(SUB);
 				}
 			}
 
-			setState(157);
+			setState(158);
 			match(IntegerLiteral);
 			}
 		}
@@ -1382,11 +1392,11 @@ public class ToyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(159);
-			match(QUOTE_OPEN);
 			setState(160);
-			match(LineStringText);
+			match(QUOTE_OPEN);
 			setState(161);
+			match(LineStringText);
+			setState(162);
 			match(QUOTE_CLOSE);
 			}
 		}
@@ -1402,7 +1412,7 @@ public class ToyParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3-\u00a6\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3-\u00a7\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\3\2\3\2\3\2\3\3\3\3\3\3\7\3\63"+
@@ -1412,14 +1422,14 @@ public class ToyParser extends Parser {
 		"\n\3\n\3\n\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\f\3\f\3\f\3"+
 		"\f\5\fv\n\f\3\r\3\r\3\r\7\r{\n\r\f\r\16\r~\13\r\3\r\3\r\3\16\3\16\3\16"+
 		"\7\16\u0085\n\16\f\16\16\16\u0088\13\16\3\16\3\16\3\17\3\17\3\20\3\20"+
-		"\3\21\3\21\3\22\3\22\3\22\5\22\u0095\n\22\3\23\3\23\3\23\3\23\3\24\3\24"+
-		"\3\25\5\25\u009e\n\25\3\25\3\25\3\26\3\26\3\26\3\26\3\26\2\2\27\2\4\6"+
-		"\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*\2\5\3\2\24\31\3\2\20\21\3\2\r"+
-		"\17\2\u009d\2,\3\2\2\2\4\64\3\2\2\2\6<\3\2\2\2\b>\3\2\2\2\nC\3\2\2\2\f"+
-		"G\3\2\2\2\16L\3\2\2\2\20]\3\2\2\2\22_\3\2\2\2\24h\3\2\2\2\26q\3\2\2\2"+
-		"\30|\3\2\2\2\32\u0086\3\2\2\2\34\u008b\3\2\2\2\36\u008d\3\2\2\2 \u008f"+
-		"\3\2\2\2\"\u0094\3\2\2\2$\u0096\3\2\2\2&\u009a\3\2\2\2(\u009d\3\2\2\2"+
-		"*\u00a1\3\2\2\2,-\5\4\3\2-.\7\2\2\3.\3\3\2\2\2/\60\5\6\4\2\60\61\7\22"+
+		"\3\21\3\21\3\22\3\22\3\22\3\22\5\22\u0096\n\22\3\23\3\23\3\23\3\23\3\24"+
+		"\3\24\3\25\5\25\u009f\n\25\3\25\3\25\3\26\3\26\3\26\3\26\3\26\2\2\27\2"+
+		"\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*\2\5\3\2\24\31\3\2\20\21\3"+
+		"\2\r\17\2\u009f\2,\3\2\2\2\4\64\3\2\2\2\6<\3\2\2\2\b>\3\2\2\2\nC\3\2\2"+
+		"\2\fG\3\2\2\2\16L\3\2\2\2\20]\3\2\2\2\22_\3\2\2\2\24h\3\2\2\2\26q\3\2"+
+		"\2\2\30|\3\2\2\2\32\u0086\3\2\2\2\34\u008b\3\2\2\2\36\u008d\3\2\2\2 \u008f"+
+		"\3\2\2\2\"\u0095\3\2\2\2$\u0097\3\2\2\2&\u009b\3\2\2\2(\u009e\3\2\2\2"+
+		"*\u00a2\3\2\2\2,-\5\4\3\2-.\7\2\2\3.\3\3\2\2\2/\60\5\6\4\2\60\61\7\22"+
 		"\2\2\61\63\3\2\2\2\62/\3\2\2\2\63\66\3\2\2\2\64\62\3\2\2\2\64\65\3\2\2"+
 		"\2\65\5\3\2\2\2\66\64\3\2\2\2\67=\5\b\5\28=\5\n\6\29=\5\f\7\2:=\5\16\b"+
 		"\2;=\5\20\t\2<\67\3\2\2\2<8\3\2\2\2<9\3\2\2\2<:\3\2\2\2<;\3\2\2\2=\7\3"+
@@ -1438,14 +1448,14 @@ public class ToyParser extends Parser {
 		"\u0081\3\2\2\2\u0085\u0088\3\2\2\2\u0086\u0084\3\2\2\2\u0086\u0087\3\2"+
 		"\2\2\u0087\u0089\3\2\2\2\u0088\u0086\3\2\2\2\u0089\u008a\5\"\22\2\u008a"+
 		"\33\3\2\2\2\u008b\u008c\t\2\2\2\u008c\35\3\2\2\2\u008d\u008e\t\3\2\2\u008e"+
-		"\37\3\2\2\2\u008f\u0090\t\4\2\2\u0090!\3\2\2\2\u0091\u0095\5$\23\2\u0092"+
-		"\u0095\5&\24\2\u0093\u0095\5(\25\2\u0094\u0091\3\2\2\2\u0094\u0092\3\2"+
-		"\2\2\u0094\u0093\3\2\2\2\u0095#\3\2\2\2\u0096\u0097\7\7\2\2\u0097\u0098"+
-		"\5\26\f\2\u0098\u0099\7\b\2\2\u0099%\3\2\2\2\u009a\u009b\7$\2\2\u009b"+
-		"\'\3\2\2\2\u009c\u009e\7\21\2\2\u009d\u009c\3\2\2\2\u009d\u009e\3\2\2"+
-		"\2\u009e\u009f\3\2\2\2\u009f\u00a0\7\"\2\2\u00a0)\3\2\2\2\u00a1\u00a2"+
-		"\7\32\2\2\u00a2\u00a3\7-\2\2\u00a3\u00a4\7,\2\2\u00a4+\3\2\2\2\13\64<"+
-		"Y]u|\u0086\u0094\u009d";
+		"\37\3\2\2\2\u008f\u0090\t\4\2\2\u0090!\3\2\2\2\u0091\u0096\5$\23\2\u0092"+
+		"\u0096\5&\24\2\u0093\u0096\5(\25\2\u0094\u0096\5*\26\2\u0095\u0091\3\2"+
+		"\2\2\u0095\u0092\3\2\2\2\u0095\u0093\3\2\2\2\u0095\u0094\3\2\2\2\u0096"+
+		"#\3\2\2\2\u0097\u0098\7\7\2\2\u0098\u0099\5\26\f\2\u0099\u009a\7\b\2\2"+
+		"\u009a%\3\2\2\2\u009b\u009c\7$\2\2\u009c\'\3\2\2\2\u009d\u009f\7\21\2"+
+		"\2\u009e\u009d\3\2\2\2\u009e\u009f\3\2\2\2\u009f\u00a0\3\2\2\2\u00a0\u00a1"+
+		"\7\"\2\2\u00a1)\3\2\2\2\u00a2\u00a3\7\32\2\2\u00a3\u00a4\7-\2\2\u00a4"+
+		"\u00a5\7,\2\2\u00a5+\3\2\2\2\13\64<Y]u|\u0086\u0095\u009e";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

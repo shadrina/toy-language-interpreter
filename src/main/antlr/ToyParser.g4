@@ -75,7 +75,7 @@ atomic
     : parenthesizedExpression
     | identifier
     | literalConstant
-    // | lineStringLiteral
+    | lineStringLiteral
     ;
 
 parenthesizedExpression

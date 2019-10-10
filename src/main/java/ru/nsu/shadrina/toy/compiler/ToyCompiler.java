@@ -2,8 +2,8 @@ package ru.nsu.shadrina.toy.compiler;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.misc.ParseCancellationException;
 import org.apache.commons.cli.*;
 import org.objectweb.asm.ClassWriter;
 import ru.nsu.shadrina.toy.Main;
@@ -54,6 +54,14 @@ public class ToyCompiler {
 
         var lexer = new ToyLexer(new ANTLRInputStream(code));
         var parser = new ToyParser(new CommonTokenStream(lexer));
+        var listener = new BaseErrorListener() {
+            @Override
+            public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) throws ParseCancellationException {
+                throw new ParseCancellationException("line " + line + ":" + charPositionInLine + " " + msg);
+            }
+        };
+        parser.removeErrorListeners();
+        parser.addErrorListener(listener);
         var tree = parser.file();
         new ToyVisitor(classWriter).visit(tree);
 

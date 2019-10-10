@@ -1,12 +1,17 @@
 // Declaration
-val a = -10000 + -2 + 3;
+print("TEST DECLARATION");
+val a = 1 * 2 + 4 + 6 * 10 - 3;
+print(a);
+a = 3 < 2;
 print(a);
 
 // Assignment
+print("TEST ASSIGNMENT");
 a = 1 + 1 / 1 + 2000 / (100 + 100);
 print(a);
 
 // Comparisons
+print("TEST COMPARISONS");
 print(1 > 34);
 print(0 < 1);
 print(4345 <= (3 + 5 + 8));
@@ -15,6 +20,7 @@ print(0 == 0);
 print(1 != 1);
 
 // If-expressions
+print("TEST IF-EXPRESSIONS");
 if (0 != 0) then {
     print(111);
 } else {
@@ -32,6 +38,7 @@ if (6754 <= 23 * 54) then {
 };
 
 // While-expressions
+print("TEST WHILE-EXPRESSIONS");
 val i = 0;
 while (i < 10) do {
     print(i);
@@ -42,3 +49,8 @@ do {
     i = i - 1;
 } while (i >= 0);
 
+// String literals
+print("TEST STRING LITERALS");
+val abc = "abc123";
+print("Hello");
+print(abc);

@@ -1,5 +1,6 @@
 package ru.nsu.shadrina.toy.compiler;
 
+import org.antlr.v4.runtime.misc.ParseCancellationException;
 import org.junit.Test;
 
 import java.io.IOException;
